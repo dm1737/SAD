@@ -1,7 +1,7 @@
 
-{% extends 'base.html' %}
+<html>
 
-{% block head %}   
+<head> 
 <title>
 Login
 </title>   
@@ -14,17 +14,16 @@ Login
     </div>
     </div>
     </h1>
-{% endblock %}
+</head>
     
 
- {% block body %}    
-<div class="container">      
-<h1>Login Here: </h1>
-<form method="POST">
+<body>
+ <div class="container">
+    <form method="POST">
     {% csrf_token %}
-    Username: <input type="text" name="username"/><br/>
-    Password: <input type="password" name="password"/><br/>
-    <button class="btn btn-default" type="submit" >Login</button>
-</form>
+    {{form.as_p}}
+        <button style="background-color:rgb(248, 122, 122); color:black" class="btn btn-outline-info" type="submit">Login</button>
+    </form>
+    Don't have an account? <a href="/register" target="blank"><strong>register here</strong></a>!
 </div>    
-{% endblock %}
+</body>
