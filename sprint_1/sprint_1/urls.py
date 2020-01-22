@@ -1,13 +1,12 @@
+from django.conf.urls import url, include
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
 
 
 urlpatterns = [
-    path("", include('accounts.urls')),
-    path('admin/', admin.site.urls),
-    path('tinymce/', include('tinymce.urls')),
-   # url(r'^account/', include('accounts.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^account/', include('accounts.urls')),
    # url(r'^login/$', login, {'template_name': 'accounts/login.html'})
-   # url('',include('accounts.urls')),
+    url('',include('accounts.urls')),
 ]
