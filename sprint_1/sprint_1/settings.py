@@ -26,7 +26,11 @@ SECRET_KEY = '1e2qssr9=w)*01yhw-3#b7!zdt6y#ksk3pef()ah$d!(fdr@&c'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'postmaster@sandbox08ec33464f8946b48ed52ab160b18061.mailgun.org'
+EMAIL_HOST_PASSWORD = '1756f1c9d7aca54ae070dc746286a44f-9dfbeecd-9a2c08aa'
+EMAIL_USE_TLS = True
 
 # Application definition
 
