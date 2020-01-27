@@ -7,10 +7,8 @@ from accounts import views as user_views
 
 
 urlpatterns = [
-    #url(r'^$', views.home),
-    path('home/', user_views.home, name="home"),
+    path('', user_views.home, name="home"),
     #url('login/', LoginView.as_view(template_name='accounts/login.html'), name="login"),
     path('login/', user_views.login, name="login"),
-]
-
-#path('register/', user_views.register, name='register'),
+    path('register/', user_views.register, name='register'),
+]   
