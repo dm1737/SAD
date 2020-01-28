@@ -1,14 +1,14 @@
-#from django.contrib.auth.views import LoginView
-#from django.conf.urls import url
-#from django.urls import path
-from django.urls import path, include
-#from . import views
-from accounts import views as user_views
+from django.contrib.auth.views import LoginView
+from django.urls import path
+from . import views
 
+app_name = 'accounts'
 
 urlpatterns = [
-    path('', user_views.home, name="home"),
-    #url('login/', LoginView.as_view(template_name='accounts/login.html'), name="login"),
-    path('login/', user_views.login, name="login"),
-    path('register/', user_views.register, name='register'),
-]   
+    path("", views.homepage, name="homepage"),
+    path("register/", views.register, name="register"),
+    path("logout", views.logout_request, name="logout"),
+    path("login", views.login_request, name="login"),
+    #url(r'^$', LoginView.as_view(template_name='accounts/login.html'), name="home"),
+    #url('/home/', LoginView.as_view(template_name='accounts/home.html'), name="home"),
+]
