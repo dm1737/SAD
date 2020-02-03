@@ -15,3 +15,6 @@ class Tutorial(models.Model):
 class Post(models.Model):
     username= models.CharField(max_length=300, unique=True)
     password= models.TextField()
+
+
+               
