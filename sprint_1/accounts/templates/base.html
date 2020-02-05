@@ -74,8 +74,7 @@
 <body>
 <div class="container">
 {% if user.is_authenticated %}
-<div class="d-flex justify-content-center"> 
-    
+<div class="d-flex justify-content-center">    
   <div class="row h-100"> 
     <div class="col-lg-10 text-center"><h1>Accounting Plus</h1>
       <hr> 
@@ -99,10 +98,14 @@
 {% include 'accounts/includes/messaging.html' %}
   
 {% else %}
-<div class="col-sm-7 text-center"><h1>Accounting Plus</h1>
-  <p> Please log in to go to your homepage. </p>
-  <p> If you don't have an account, please register. </p>
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="text-center" style="float: none; margin: 0 auto;"><h1> Accounting Plus <hr></h1></div>
+    <div class="text-center" style="float: none; margin: 0 auto;"><a href ><img src="/static/images/error.svg"></a></div> 
+    <div class="text-center" style="float: none; margin: 20px;"><p> Please log in to go to your homepage. </p></div>
+    <div class="text-center" style="float: none; margin: 0 auto;"><p> If you don't have an account, please register. </p></div>
+  </div>
+</div>
 {% endif %}  
 </div>  
 </div>
