@@ -72,28 +72,36 @@
 
 {% block body %}
 <body>
-<div class="container">
-{% if user.is_authenticated %}
-<div class="d-flex justify-content-center">    
-  <div class="row h-100"> 
-    <div class="col-lg-10 text-center"><h1>Accounting Plus</h1>
-      <hr> 
-      <p> Welcome to your accounting homepage! </p>
-      <h3>Dashboards</h3>
-      <div class="row">
-        {% for tut in tutorials %}
+  <div class="container">
+    <div class="row">
+      {% if user.is_authenticated %}
+        <div class="text-center" style="float: none; margin: 0 auto;"><h1> Accounting Plus <hr></h1></div>
+        <div class="text-center" style="float: none; margin: 20px;"><p> Welcome to your accounting homepage! </p></div>
+        <div class="text-center" style="float: none; margin: 20px;"><h3>Dashboards</h3></div>      
+        <div class="row">
+          {% for tut in tutorials %}
           <div class="col s12 m6">
-            <div class="card hoverable">
-              <div class="card-content">
-                <span class="card-title">{{tut.title}}</span>
-                <p>{{tut.published}}</p>
-                <p>{{tut.content|safe}}</p>
+            <div class="text-center">
+              <div class="card hoverable">
+                <div class="card-content">
+                  <span class="card-title">{{tut.title}}</span>
+                    <p>{{tut.published}}</p>
+                    <p>{{tut.content|safe}}</p>
+                </div>
+              </div>
+              <div class="card hoverable">
+                <div class="card-content">
+                  <span class="card-title">{{tut.title}}</span>
+                    <p>{{tut.published}}</p>
+                    <p>{{tut.content|safe}}</p>
+                </div>
               </div>
             </div>
           </div>
-        {% endfor %}
+          {% endfor %}
       </div>
     </div>
+  </div>
   
 {% else %}
 <div class="container-fluid">
