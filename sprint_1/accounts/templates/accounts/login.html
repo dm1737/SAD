@@ -85,6 +85,7 @@
 			  	<div class="panel-body">
 			    	
                     <fieldset>
+                    {% include 'accounts/includes/messaging.html' %}
                     <center><img class="profile-img" src="/static/images/user1.svg"></center>
                     <form method="POST">
                         {% csrf_token %}
