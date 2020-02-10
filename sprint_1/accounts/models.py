@@ -1,16 +1,31 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 from django.db import models
 
-class Tutorial(models.Model):
-    title = models.CharField(max_length=300)
-    content = models.TextField()
-    published = models.DateTimeField('date published', default=datetime.now)
+class UserAccount (models.Model):
+	user = models.OneToOneField(User)
+    account_name = models.CharField(max_length=300)
+    account_number = models.TextField()
+    account_description = models.TextField()
+    #normal_side = models.TextField() 
+    account_category = models.CharField(max_length=300)
+    account_subcategory = models.CharField(max_length=300)
+    initial_balance = models.DecimalField(decimal_places=2, max_digits=10)
+    debit = models.DecimalField(decimal_places=2, max_digits=10)
+    credit = models.DecimalField(decimal_places=2, max_digits=10)
+    balance = models.DecimalField(decimal_places=2, max_digits=10)
+    account_created = models.DateTimeField(default=datetime.now)
+    user_id = models.CharField(max_length=300)
+    order = models.CharField(max_length=300)
+    statement = models.FileField()
+    comment = models.TextField()
 
     def __str__(self):
-        return self.title
+        return self.user.username
 
 class Post(models.Model):
     username= models.CharField(max_length=300, unique=True)

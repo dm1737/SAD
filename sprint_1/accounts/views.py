@@ -51,6 +51,15 @@ def login_request(request):
     return render(request = request,
                     template_name = "accounts/login.html",
                     context={"form":form})
+
+   def view_profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    args = {'user': user}
+    return render(request, 'accounts/accountinfo.html', args)
+
 """if request.method == 'POST':
         print('here')
         if request.POST.get('username') and request.POST.get('password'):
