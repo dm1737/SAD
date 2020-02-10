@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Profile</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Account</h1>
+    <p>Username: {{ user }}</p>
+    <p>Account Name: {{ user.first_name }}</p>
+    <p>Account Number: {{ user.last_name }}</p>
+    <p>Account Description: {{ user.email }}</p>
+    <p>Account Category: {{ user.useraccount.description }}</p>
+    <p>Subcategory: {{ user.useraccount.phone }}</p>
+    <p>Initial Balance: {{ user.useraccount.city }}</p>
+    <p>Debit: {{ user.useraccount.website }}</p>
+    <p>Credit: {{ user.first_name }}</p>
+    <p>Balance: {{ user.last_name }}</p>
+    <p>Account Created: {{ user.email }}</p>
+    <p>User ID: {{ user.useraccount.description }}</p>
+    <p>Order: {{ user.useraccount.phone }}</p>
+    <p>Statement: {{ user.useraccount.city }}</p>
+    <p>Comment: {{ user.useraccount.website }}</p>
+
+    
+    {% endif %}
+</div>
+
+{% endblock %}
