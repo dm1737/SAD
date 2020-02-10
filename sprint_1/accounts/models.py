@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class UserAccount (models.Model):
-	user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_name = models.CharField(max_length=300)
     account_number = models.TextField()
     account_description = models.TextField()
@@ -19,7 +19,6 @@ class UserAccount (models.Model):
     credit = models.DecimalField(decimal_places=2, max_digits=10)
     balance = models.DecimalField(decimal_places=2, max_digits=10)
     account_created = models.DateTimeField(default=datetime.now)
-    user_id = models.CharField(max_length=300)
     order = models.CharField(max_length=300)
     statement = models.FileField()
     comment = models.TextField()
@@ -30,6 +29,3 @@ class UserAccount (models.Model):
 class Post(models.Model):
     username= models.CharField(max_length=300, unique=True)
     password= models.TextField()
-
-
-               

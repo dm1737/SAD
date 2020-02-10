@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Post,Tutorial
+from .models import Post
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
@@ -52,7 +52,7 @@ def login_request(request):
                     template_name = "accounts/login.html",
                     context={"form":form})
 
-   def view_profile(request, pk=None):
+def view_profile(request, pk=None):
     if pk:
         user = User.objects.get(pk=pk)
     else:
@@ -70,6 +70,5 @@ def login_request(request):
             post.save()
                 
             return render(request, 'posts/home.html')  
-
      else:
             return render(request, 'accounts/login.html') """
