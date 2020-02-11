@@ -2,30 +2,26 @@
 
 
 {% block head %}
-<title>Profile</title>
+<title>Account</title>
 {% endblock %}
 
 {% block body %}
 <div class="container">
     <h1>Account</h1>
-    <p>Username: {{ user }}</p>
-    <p>Account Name: {{ user.first_name }}</p>
-    <p>Account Number: {{ user.last_name }}</p>
-    <p>Account Description: {{ user.email }}</p>
-    <p>Account Category: {{ user.useraccount.description }}</p>
-    <p>Subcategory: {{ user.useraccount.phone }}</p>
-    <p>Initial Balance: {{ user.useraccount.city }}</p>
-    <p>Debit: {{ user.useraccount.website }}</p>
-    <p>Credit: {{ user.first_name }}</p>
-    <p>Balance: {{ user.last_name }}</p>
-    <p>Account Created: {{ user.email }}</p>
-    <p>User ID: {{ user.useraccount.description }}</p>
-    <p>Order: {{ user.useraccount.phone }}</p>
-    <p>Statement: {{ user.useraccount.city }}</p>
-    <p>Comment: {{ user.useraccount.website }}</p>
-
-    
-    {% endif %}
+    <p>Username: {{ user.first_name }}</p>
+    <p>Account Name: {{ user.useraccount.account_name }}</p>
+    <p>Account Number: {{ user.UserAccount.account_number }}</p>
+    <p>Account Description: {{ user.useraccount.account_description }}</p>
+    <p>Account Category: {{ user.useraccount.account_category }}</p>
+    <p>Subcategory: {{ user.useraccount.account_subcategory }}</p>
+    <p>Initial Balance: {{ user.useraccount.initial_balance }}</p>
+    <p>Debit: {{ user.useraccount.debit }}</p>
+    <p>Credit: {{ user.useraccount.credit}}</p>
+    <p>Balance: {{ user.useraccount.balance }}</p>
+    <p>Account Created: {{ user.useraccount.account_created }}</p>
+    <p>Order: {{ user.useraccount.order }}</p>
+    <p>Statement: {{ user.useraccount.statement }}</p>
+    <p>Comment: {{ user.useraccount.comment }}</p>
 </div>
 
 {% endblock %}
