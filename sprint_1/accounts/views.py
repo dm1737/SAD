@@ -33,6 +33,7 @@ def logout_request(request):
     messages.info(request, "Logged out successfully!")
     return redirect("accounts:homepage")
 def fgtpassword(request):
+    form = AuthenticationForm()
     return render(request = request,
                 template_name = "accounts/forgot_password.html",
                 context={"form":form})
