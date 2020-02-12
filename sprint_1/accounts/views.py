@@ -33,11 +33,17 @@ def logout_request(request):
     messages.info(request, "Logged out successfully!")
     return redirect("accounts:homepage")
 def fgtpassword(request):
+    if request.method == 'GET':
+        form = EmailForm()
+        return render(request = request,
+                template_name = "accounts/forgot_password.html",
+                context={"form":form})
     if request.method == 'POST':    
-        form = EmailForm(data=request.POST)
-        if form.is_valid():
+        form = EmailForm(request.POST)
+        if form.is_valid():            
             email = form.cleaned_data.get('email')            
             user = authenticate(email=email)
+            print(user)
             if user is not None:                
                 messages.info(request, f"Email sent to {email}")
                # return redirect('/')
@@ -45,10 +51,10 @@ def fgtpassword(request):
                 messages.error(request, "Invalid email.")
         else:
             messages.error(request, "Invalid email.")
-    form = EmailForm()
-    return render(request = request,
+        return render(request = request,
                 template_name = "accounts/forgot_password.html",
                 context={"form":form})
+    
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)

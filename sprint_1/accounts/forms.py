@@ -16,16 +16,9 @@ class NewUserForm(UserCreationForm):
             user.save()
         return user
 
-class EmailForm(UserCreationForm):
+class EmailForm(forms.Form):
     email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = ("email",)
-
-    def save(self, commit=True):
-        user = super(NewUserForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+         
+        return email
