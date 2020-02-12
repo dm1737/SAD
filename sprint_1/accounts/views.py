@@ -39,12 +39,12 @@ def fgtpassword(request):
                 template_name = "accounts/forgot_password.html",
                 context={"form":form})
     if request.method == 'POST':    
-        form = EmailForm(request.POST)
+        form = EmailForm(data=request.POST)
         if form.is_valid():            
             email = form.cleaned_data.get('email')            
-            user = authenticate(email=email)
-            print(user)
-            if user is not None:                
+            #user = authenticate(email=email)
+            #print(user)
+            if email is not None:                
                 messages.info(request, f"Email sent to {email}")
                # return redirect('/')
             else:
