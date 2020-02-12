@@ -1,9 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Post,Tutorial
+from .models import Post,Tutorial, Profile
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
 from .forms import NewUserForm, EmailForm
+from django.contrib.auth.decorators import login_required
 def homepage(request):
     return render(request = request,
                 template_name="accounts/home.html",
@@ -54,26 +55,32 @@ def fgtpassword(request):
         return render(request = request,
                 template_name = "accounts/forgot_password.html",
                 context={"form":form})
-    
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
+           
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
+            
+            messages.warning(request, 'Your account has been locked out because of too many failed login attempts.')
             if user is not None:
+                #user2 = Profile.objects.get_or_create(user=request.user)
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
                 return redirect('/')
             else:
+                user.Profile.attempts += 1
                 messages.error(request, "Invalid username or password.")
         else:
+            user.Profile.attempts += 1
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request = request,
                     template_name = "accounts/login.html",
                     context={"form":form})
+
 """if request.method == 'POST':
         print('here')
         if request.POST.get('username') and request.POST.get('password'):

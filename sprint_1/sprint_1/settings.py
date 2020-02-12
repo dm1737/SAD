@@ -124,6 +124,15 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/account/'
 
+AUTH_PROFILE_MODULE = 'sprint_1.Profile'
+
+CACHES = {
+   'default': {
+      'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+      'LOCATION': '/var/tmp/django_cache',
+   }
+}
+
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
     'width': 1120,
