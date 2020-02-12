@@ -3,7 +3,7 @@ from .models import Post,Tutorial
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm
+from .forms import NewUserForm, EmailForm
 def homepage(request):
     return render(request = request,
                 template_name="accounts/home.html",
@@ -33,7 +33,19 @@ def logout_request(request):
     messages.info(request, "Logged out successfully!")
     return redirect("accounts:homepage")
 def fgtpassword(request):
-    form = AuthenticationForm()
+    if request.method == 'POST':    
+        form = EmailForm(data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')            
+            user = authenticate(email=email)
+            if user is not None:                
+                messages.info(request, f"Email sent to {email}")
+               # return redirect('/')
+            else:
+                messages.error(request, "Invalid email.")
+        else:
+            messages.error(request, "Invalid email.")
+    form = EmailForm()
     return render(request = request,
                 template_name = "accounts/forgot_password.html",
                 context={"form":form})
