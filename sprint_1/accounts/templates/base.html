@@ -35,7 +35,7 @@
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
         <a href="/profile" class="navbar-right">{{user.username|title}}</a>
-        <a href="/profile" class="navbar-right"><img src="/static/images/user2.svg"></a>
+        <a href="/profile" class="navbar-right"><img src="{{user.profile.image.url}}" width="35px"></a>
 
         {% else %}
           {% include 'accounts/includes/messaging.html' %} 
