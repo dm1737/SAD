@@ -124,6 +124,8 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/account/'
 
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
     'width': 1120,

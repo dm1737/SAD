@@ -29,7 +29,7 @@ class Profile(models.Model):
         (Admin, 'Admin'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    middle_name = models.CharField(max_length=30, blank=True)
+    middle_initial = models.CharField(max_length=1, blank=True)
     dob = models.DateField(null=True, blank=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)

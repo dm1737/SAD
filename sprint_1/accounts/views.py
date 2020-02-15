@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
 from .forms import NewUserForm, EmailForm
+
 def homepage(request):
     return render(request = request,
                 template_name="accounts/home.html",
@@ -74,6 +75,12 @@ def login_request(request):
     return render(request = request,
                     template_name = "accounts/login.html",
                     context={"form":form})
+
+def profile(request):
+    return render(request = request,
+                    template_name = "accounts/profile.html")
+                    #context={"form":form})
+
 """if request.method == 'POST':
         print('here')
         if request.POST.get('username') and request.POST.get('password'):
