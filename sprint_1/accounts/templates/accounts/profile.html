@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+<h1>
+    <div style="text-align: center;">
+        <div style="display: inline-block; text-align: left; margin-bottom: 30px;">
+            <u>Profile</u>
+        </div>
+    </div>
+</h1>
+
+<div style="text-align: center;">
+    <div style="display: inline-block; text-align: left;">
+            <p><b>Username:</b> {{user}}</p>
+            <p><b>First Name:</b> {{user.first_name}}</p>
+            <p><b>Middle Initial:</b> {{user.profile.middle_initial}}</p>
+            <p><b>Last Name:</b> {{user.last_name}}</p>
+            <p><b>Date of Birth: </b>{{user.profile.dob}}</p>
+            <p><b>Role: </b>{{user.profile.role}}</p>
+            <p><b>Address: </b>{{user.profile.address}}</p>
+            <p><b>City:</b> {{user.profile.city}}</p>
+            <p><b>State: </b>{{user.profile.state}}</p>
+            <p><b>Zip: </b>{{user.profile.zip_code}}</p>
+            <p><b>Profile Pic: </b>{{user.profile.image}}</p>
+            <p><b>Bio: </b>{{user.profile.bio}}</p>
+    </div>
+</div>
+{% endblock %}
