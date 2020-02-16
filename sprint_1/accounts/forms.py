@@ -17,11 +17,13 @@ class NewUserForm(UserCreationForm):
         return user
 
 class EmailForm(forms.Form):
-    email = forms.EmailField(required=True)
-    def clean_email(self):
+     email = forms.EmailField(required=True)
+
+    
+def clean_email(self):
         email = self.cleaned_data.get('email')
         emailset = User.objects.filter(email=email)
         if emailset.exists():
             return email
         else:
-            return None
+            return None       
