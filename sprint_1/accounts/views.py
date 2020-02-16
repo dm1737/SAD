@@ -77,9 +77,10 @@ def login_request(request):
                     context={"form":form})
 
 def profile(request):
-    return render(request = request,
-                    template_name = "accounts/profile.html")
-                    #context={"form":form})
+    return render(request = request, template_name = "accounts/profile.html")  
+
+def help(request):
+    return render(request = request, template_name = "accounts/help.html")   
 
 """if request.method == 'POST':
         print('here')
