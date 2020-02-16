@@ -1,14 +1,14 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Post,Tutorial
+from .models import Post
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
 from .forms import NewUserForm, EmailForm
+from django.contrib.auth.models import User
 
 def homepage(request):
     return render(request = request,
-                template_name="accounts/home.html",
-                context = {"tutorials":Tutorial.objects.all})
+                template_name="accounts/home.html")
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -33,6 +33,7 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("accounts:homepage")
+
 def fgtpassword(request):
     if request.method == 'GET':
         form = EmailForm()
@@ -76,10 +77,12 @@ def login_request(request):
                     template_name = "accounts/login.html",
                     context={"form":form})
 
+def view_account(request):
+    args = {'user': request.user}
+    return render(request, 'accounts/accountinfo.html', args)
+
 def profile(request):
-    return render(request = request,
-                    template_name = "accounts/profile.html")
-                    #context={"form":form})
+    return render(request = request, template_name = "accounts/profile.html")   
 
 """if request.method == 'POST':
         print('here')
@@ -91,6 +94,5 @@ def profile(request):
             post.save()
                 
             return render(request, 'posts/home.html')  
-
      else:
             return render(request, 'accounts/login.html') """
