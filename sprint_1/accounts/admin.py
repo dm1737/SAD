@@ -1,31 +1,22 @@
 from django.contrib import admin
-from .models import Post, UserAccount
+from .models import Tutorial, Post
 from tinymce.widgets import TinyMCE
 from django.db import models
-from simple_history.admin import SimpleHistoryAdmin
-from .models import Profile
-from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from .models import Profile
 
-
-
-
-class AccountAdmin (SimpleHistoryAdmin):
+class TutorialAdmin (admin.ModelAdmin):
     
-    list_display = (
-    	            "account_name",
-    				"account_number",
-    				"account_category",
-    				"debit",
-    				"credit",
-    				"balance")
-    search_fields = ['account_number','account_name']
-
-
-
-   
+    fields = ["title",
+            "published",
+            "content"]
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE()},
+        }
 # Register your models here.
-admin.site.register(UserAccount, AccountAdmin)
+admin.site.register(Tutorial, TutorialAdmin)
+admin.site.register(Post)
 
 
 
@@ -46,5 +37,3 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
-
-
