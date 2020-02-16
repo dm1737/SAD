@@ -58,12 +58,10 @@ def fgtpassword(request):
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
-        if form.is_valid():
-           
+        if form.is_valid():           
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            
+            user = authenticate(username=username, password=password)            
             messages.warning(request, 'Your account has been locked out because of too many failed login attempts.')
             if user is not None:
                 #user2 = Profile.objects.get_or_create(user=request.user)
@@ -72,9 +70,9 @@ def login_request(request):
                 return redirect('/')
             else:
                 user.Profile.attempts += 1
-                messages.error(request, "Invalid username or password.")
+                messages.error(request, "Invalid Password.")
         else:
-            user.Profile.attempts += 1
+            print ("this errors be:", form.errors)
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request = request,
