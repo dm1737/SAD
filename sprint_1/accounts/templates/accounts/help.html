@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h1>
+    <div style="text-align: center;">
+        <div style="display: inline-block; text-align: left; margin-bottom: 30px;">
+            <u>Accounting Plus Sysytem Information</u>
+        </div>
+    </div>
+</h1>
+<head>
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 60%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+    </head>
+
+    <body>  
+    <table align="center">
+        <div style="margin: 25px;">
+            <tr>
+                <th>System Page</th>
+                <th>Information</th>
+            </tr>
+            <tr>
+                <td>Homepage</td>
+                <td>This is your main access to the Accounting Plus system.</td>
+            </tr>
+            <tr>
+                <td>Accounts</td>
+                <td>See and overview of your account.</td>
+            </tr>
+            <tr>
+                <td>Projects</td>
+                <td>All projects will be stored here.</td>
+            </tr>
+            <tr>
+                <td>User Profile</td>
+                <td>See your personal information and contact your administrator for help.</td>
+            </tr>
+        </div>
+    </table>
+    </body>
+{% endblock %}

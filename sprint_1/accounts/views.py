@@ -82,7 +82,10 @@ def view_account(request):
     return render(request, 'accounts/accountinfo.html', args)
 
 def profile(request):
-    return render(request = request, template_name = "accounts/profile.html")   
+    return render(request = request, template_name = "accounts/profile.html")  
+
+def help(request):
+    return render(request = request, template_name = "accounts/help.html")   
 
 """if request.method == 'POST':
         print('here')
