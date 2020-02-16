@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Post,Tutorial
+from .models import Post,Tutorial, Profile
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
 from .forms import NewUserForm, EmailForm
-
 def homepage(request):
     return render(request = request,
                 template_name="accounts/home.html",
@@ -55,22 +55,41 @@ def fgtpassword(request):
         return render(request = request,
                 template_name = "accounts/forgot_password.html",
                 context={"form":form})
-    
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
-        if form.is_valid():
+        try: 
+            if form.is_valid():           
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')  
+                user = authenticate(username=username, password=password)                        
+                if user.profile.attempts < 3:
+                    login(request, user)
+                    user.profile.attempts = 0
+                    user.save()
+                    messages.info(request, f"You are now logged in as {username}")
+                    return redirect('/')
+                else:
+                    user.is_active = False
+                    user.save()
+                    messages.warning(request, 'Your account has been locked out because of too many failed login attempts.')
+            else:
+                raise Exception
+        except:            
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}")
-                return redirect('/')
+            userset = User.objects.filter(username=username)           
+            if userset.exists():
+                userID = userset[0].id
+                obj = User.objects.get(id=userID)
+                obj.profile.attempts += 1
+                obj.save()
+                if obj.profile.attempts > 2:
+                    messages.warning(request, 'Your account has been locked out because of too many failed login attempts.')
+                else:                               
+                    messages.error(request, "Invalid password.")
             else:
                 messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
+            
     form = AuthenticationForm()
     return render(request = request,
                     template_name = "accounts/login.html",
