@@ -29,9 +29,9 @@
       {% if user.is_authenticated %} 
         {% include 'accounts/includes/messaging.html' %} 
         <a href="/" class="navbar-left"> Home </a>
-        <a href="" class="navbar-left"> Accounts </a>
-        <a href="" class="navbar-left"> Projects </a>
-        <a href="" class="navbar-left"> Help </a>
+        <a href="/accounts" class="navbar-left"> Accounts </a>
+        <a href="#" class="navbar-left"> Projects </a>
+        <a href="#" class="navbar-left"> Help </a>
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
         <a href="/profile" class="navbar-right">{{user.username|title}}</a>
