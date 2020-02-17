@@ -3,32 +3,92 @@
 
 
 {% block body %}
-<h1>
+<h2>
     <div style="text-align: center;">
-        <div style="display: inline-block; text-align: left; margin-bottom: 30px;">
-            <u>Account</u>
+        <div style="display: inline-block; text-align: left; margin-bottom: 10px;">
+            <u>Account Summary</u>
         </div>
     </div>
-</h1>
+</h2>
+<head>
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 50%;
+      margin-bottom: 100px;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+    </head>
 
-<div style="text-align: center;">
-  <div style="display: inline-block; text-align: left;">
-        <p><b>Username: {{ user.first_name }}</p>
-        <p><b>Account Name: {{ user.useraccount.account_name }}</p>
-        <p><b>Account Number: {{ user.UserAccount.account_number }}</p>
-        <p><b>Account Description: {{ user.useraccount.account_description }}</p>
-        <p><b>Account Category: {{ user.useraccount.account_category }}</p>
-        <p><b>Subcategory: {{ user.useraccount.account_subcategory }}</p>
-        <p><b>Initial Balance: {{ user.useraccount.initial_balance }}</p>
-        <p><b>Debit: {{ user.useraccount.debit }}</p>
-        <p><b>Credit: {{ user.useraccount.credit}}</p>
-        <p><b>Balance: {{ user.useraccount.balance }}</p>
-        <p><b>Account Created: {{ user.useraccount.account_created }}</p>
-        <p><b>Order: {{ user.useraccount.order }}</p>
-        <p><b>Statement: {{ user.useraccount.statement }}</p>
-        <p><b>Comment: {{ user.useraccount.comment }}</p>
-  </div>
-</div>
-
+    <body>  
+    <div style="text-align: center; margin: 10px;"><img src="{{user.profile.image.url}}"></div>    
+    <table align="center">
+        <div>
+            <tr>
+                <td><b>Account Name: </b></td>
+                <td>{{ user.useraccount.account_name }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Number:</b></td>
+                <td> {{ user.UserAccount.account_number }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Description: </b></td>
+                <td>{{ user.useraccount.account_description }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Category: </b></td>
+                <td>{{ user.useraccount.account_category }} </td>
+            </tr>
+            <tr>
+                <td><b>Subcategory: </b></td>
+                <td>{{ user.useraccount.account_subcategory }} </td>
+            </tr>
+            <tr>
+                <td><b>Initial Balance: </b></td>
+                <td>{{ user.useraccount.initial_balance }} </td>
+            </tr>
+            <tr>
+                <td><b>Debit: </b></td>
+                <td>{{ user.useraccount.debit }}</td>
+            </tr>
+            <tr>
+                <td><b>Credit: </b></td>
+                <td>{{ user.useraccount.credit}} </td>
+            </tr>
+            <tr>
+                <td><b>Balance:</b></td>
+                <td> {{ user.useraccount.balance }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Created: </b></td>
+                <td>{{ user.useraccount.account_created }} </td>
+            </tr>
+            <tr>
+                <td><b>Order: </b></td>
+                <td>{{ user.useraccount.order }}</td>
+            </tr>
+            <tr>
+                <td><b>Statement: </b></td>
+                <td>{{ user.useraccount.statement }}</td>
+            </tr>
+            <tr>
+                <td><b>Comment: </b></td>
+                <td>{{ user.useraccount.comment }}</td>
+            </tr>
+        </div>
+    </table>
+    </body>
 
 {% endblock %}
