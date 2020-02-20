@@ -38,7 +38,7 @@ class Profile(models.Model):
     zip_code = models.CharField(max_length=5, null=True, blank=True)
     image = models.ImageField(upload_to='profile_image', null=True, blank=True)
     bio = models.TextField(max_length=500, null = True, blank=True)
-
+    attempts = models.IntegerField(default=0, blank = True)
 
 active = models.BooleanField(default=True)
 staff = models.BooleanField(default=True)
