@@ -35,8 +35,13 @@
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
         <a href="/profile" class="navbar-right">{{user.username|title}}</a>
-        <a href="/profile" class="navbar-right"><img src="{{user.profile.image.url}}" width="35px"></a>
-
+        <a href="/profile" class="navbar-right">
+          {% if user.profile.image.url != ''%}
+            <img src="{{user.profile.image.url}}" width="35px"> 
+          {% else %}
+             
+          {% endif %}
+        </a>
         {% else %}
           {% include 'accounts/includes/messaging.html' %} 
           <div class="navbar-left" style="float: none; margin: 0px;"><h3>Accounting Plus </h3></div>
