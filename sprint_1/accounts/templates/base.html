@@ -29,19 +29,19 @@
       {% if user.is_authenticated %} 
         {% include 'accounts/includes/messaging.html' %} 
         <a href="/" class="navbar-left"> Home </a>
-        <a href="" class="navbar-left"> Accounts </a>
-        <a href="" class="navbar-left"> Projects </a>
-        <a href="" class="navbar-left"> Help </a>
+        <a href="/accounts" class="navbar-left"> Accounts </a>
+        <a href="#" class="navbar-left"> Journals </a>
+        <a href="/help" class="navbar-left"> Help </a>
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
         <a href="/profile" class="navbar-right">{{user.username|title}}</a>
-        <a href="/profile" class="navbar-right">
-          {% if user.profile.image.url != ''%}
-            <img src="{{user.profile.image.url}}" width="35px"> 
+       {% if user.profile.image %}
+        <a href="/profile" class="navbar-right"><img src="{{user.profile.image.url}}" width="35px"> 
           {% else %}
+           <a href="/profile" class="navbar-right"><img src="/static/images/user2.svg"></a>
              
           {% endif %}
-        </a>
+                  </a>
         {% else %}
           {% include 'accounts/includes/messaging.html' %} 
           <div class="navbar-left" style="float: none; margin: 0px;"><h3>Accounting Plus </h3></div>
