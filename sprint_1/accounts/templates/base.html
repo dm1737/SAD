@@ -35,8 +35,13 @@
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
         <a href="/profile" class="navbar-right">{{user.username|title}}</a>
-        <a href="/profile" class="navbar-right"><img src="{{user.profile.image.url}}" width="35px"></a>
-
+        <a href="/profile" class="navbar-right">
+            {% if user.profile.image.url != ''%}
+            <img src="{{user.profile.image.url}}" width="35px"> 
+          {% else %}
+             
+          {% endif %}
+                  </a>
         {% else %}
           {% include 'accounts/includes/messaging.html' %} 
           <div class="navbar-left" style="float: none; margin: 0px;"><h3>Accounting Plus </h3></div>
@@ -80,26 +85,7 @@
         <div class="text-center" style="float: none; margin-bottom: 40px;"><p> Welcome to your accounting homepage! </p></div>
         <div class="text-center" style="float: none; margin: 20px;"><h3><hr>Dashboards<hr></h3></div>      
         <div class="row">
-          {% for tut in tutorials %}
-          <div class="col s12 m6">
-            <div class="text-center">
-              <div class="card hoverable">
-                <div class="card-content">
-                  <span class="card-title">{{tut.title}}</span>
-                    <p>{{tut.published}}</p>
-                    <p>{{tut.content|safe}}</p>
-                </div>
-              </div>
-              <div class="card hoverable">
-                <div class="card-content">
-                  <span class="card-title">{{tut.title}}</span>
-                    <p>{{tut.published}}</p>
-                    <p>{{tut.content|safe}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
+          
       </div>
     </div>
   </div>
