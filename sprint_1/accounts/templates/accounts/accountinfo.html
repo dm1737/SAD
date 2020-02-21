@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+<h2>
+    <div style="text-align: center;">
+        <div style="display: inline-block; text-align: left; margin-bottom: 10px;">
+            <u>Account Summary</u>
+        </div>
+    </div>
+</h2>
+<head>
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 50%;
+      margin-bottom: 100px;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+    </head>
+
+    <body>  
+    <div style="text-align: center; margin: 10px;"><img src="{{user.profile.image.url}}"></div>    
+    <table align="center">
+        <div>
+            <tr>
+                <td><b>Account Name: </b></td>
+                <td>{{ user.useraccount.account_name }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Number:</b></td>
+                <td> {{ user.UserAccount.account_number }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Description: </b></td>
+                <td>{{ user.useraccount.account_description }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Category: </b></td>
+                <td>{{ user.useraccount.account_category }} </td>
+            </tr>
+            <tr>
+                <td><b>Subcategory: </b></td>
+                <td>{{ user.useraccount.account_subcategory }} </td>
+            </tr>
+            <tr>
+                <td><b>Initial Balance: </b></td>
+                <td>{{ user.useraccount.initial_balance }} </td>
+            </tr>
+            <tr>
+                <td><b>Debit: </b></td>
+                <td>{{ user.useraccount.debit }}</td>
+            </tr>
+            <tr>
+                <td><b>Credit: </b></td>
+                <td>{{ user.useraccount.credit}} </td>
+            </tr>
+            <tr>
+                <td><b>Balance:</b></td>
+                <td> {{ user.useraccount.balance }}</td>
+            </tr>
+            <tr>
+                <td><b>Account Created: </b></td>
+                <td>{{ user.useraccount.account_created }} </td>
+            </tr>
+            <tr>
+                <td><b>Order: </b></td>
+                <td>{{ user.useraccount.order }}</td>
+            </tr>
+            <tr>
+                <td><b>Statement: </b></td>
+                <td>{{ user.useraccount.statement }}</td>
+            </tr>
+            <tr>
+                <td><b>Comment: </b></td>
+                <td>{{ user.useraccount.comment }}</td>
+            </tr>
+        </div>
+    </table>
+    </body>
+
+{% endblock %}
