@@ -99,6 +99,13 @@ def profile(request):
                     template_name = "accounts/profile.html")
                     #context={"form":form})
 
+def help(request):
+    return render(request = request, template_name = "accounts/help.html") 
+
+def view_account(request):
+    args = {'user': request.user}
+    return render(request, 'accounts/accountinfo.html', args)
+
 """if request.method == 'POST':
         print('here')
         if request.POST.get('username') and request.POST.get('password'):
