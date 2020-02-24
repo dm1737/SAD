@@ -4,19 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
-
-class Tutorial(models.Model):
-    title = models.CharField(max_length=300)
-    content = models.TextField()
-    published = models.DateTimeField('date published', default=datetime.now)
-
-    def __str__(self):
-        return self.title
-
-class Post(models.Model):
-    username= models.CharField(max_length=300, unique=True)
-    password= models.TextField()
+from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 
 class Profile(models.Model):
@@ -64,3 +53,25 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+class UserAccount (models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    account_name = models.CharField(max_length=300, unique=True)
+    account_number = models.PositiveIntegerField(unique=True)
+    account_description = models.TextField()
+    account_category = models.CharField(max_length=300)
+    account_subcategory = models.CharField(max_length=300)
+    initial_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(1)])
+    debit = models.DecimalField(decimal_places=2, max_digits=10)
+    credit = models.DecimalField(decimal_places=2, max_digits=10)
+    balance = models.DecimalField(decimal_places=2, max_digits=10)
+    account_created = models.DateTimeField(default=datetime.now)
+    order = models.CharField(max_length=300)
+    statement = models.FileField(null=True)
+    comment = models.TextField()
+    history = HistoricalRecords()
+
+
+    def __str__(self):
+        return self.user.username

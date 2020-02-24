@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Post,Tutorial,Profile
+from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
@@ -8,8 +8,8 @@ from .forms import NewUserForm, EmailForm
 
 def homepage(request):
     return render(request = request,
-                template_name="accounts/home.html",
-                context = {"tutorials":Tutorial.objects.all})
+                template_name="accounts/home.html",)
+                
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
