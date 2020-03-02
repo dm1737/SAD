@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Ledger Page</h1>
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Account Name</th>
+            <th scope="col">Account Number</th>
+            <th scope="col">Account Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <th scope="row">{{ user.useraccount.account_name }}</th>
+            <td>{{ user.useraccount.account_number }}</td>
+            <td>{{ user.useraccount.account_description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div> 
+
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile
+from .models import Profile, Journal
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
@@ -105,6 +105,9 @@ def help(request):
 def view_account(request):
     args = {'user': request.user}
     return render(request, 'accounts/accountinfo.html', args)
+
+def ledger(request):
+    return render(request = request, template_name = "accounts/ledger.html")
 
 """if request.method == 'POST':
         print('here')
