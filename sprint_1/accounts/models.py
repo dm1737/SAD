@@ -62,7 +62,7 @@ class UserAccount (models.Model):
     account_description = models.TextField()
     account_category = models.CharField(max_length=300)
     account_subcategory = models.CharField(max_length=300)
-    initial_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(1)])
+    initial_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0)])
     debit = models.DecimalField(decimal_places=2, max_digits=10)
     credit = models.DecimalField(decimal_places=2, max_digits=10)
     balance = models.DecimalField(decimal_places=2, max_digits=10)
@@ -74,4 +74,21 @@ class UserAccount (models.Model):
 
 
     def __str__(self):
-        return self.user.username
+        return self.account_name
+
+
+class Journal (models.Model):
+    #user = models.ForeignKey(User, related_name='User', null=True, on_delete=models.CASCADE)
+    account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    Journal_name = models.CharField(max_length=300, unique=True)
+    Journal_number = models.PositiveIntegerField(unique=True)
+    Journal_description = models.TextField(null=True, blank=True)
+    initial_journal_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0)])
+    journal_debit = models.DecimalField(decimal_places=2, max_digits=10)
+    journal_credit = models.DecimalField(decimal_places=2, max_digits=10)
+    journal_balance = models.DecimalField(decimal_places=2, max_digits=10)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.Journal_name
+

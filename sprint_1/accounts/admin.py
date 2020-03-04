@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from simple_history.admin import SimpleHistoryAdmin
 from .models import UserAccount
+from .models import Journal
 
 
 class AccountAdmin (SimpleHistoryAdmin):
@@ -18,7 +19,7 @@ class AccountAdmin (SimpleHistoryAdmin):
     				"credit",
     				"balance")
     search_fields = ['account_number','account_name']
-    
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
@@ -34,6 +35,21 @@ class CustomUserAdmin(UserAdmin):
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 
+class JournalAdmin(SimpleHistoryAdmin):
+    
+    list_display = (
+                    "account",
+                    "Journal_name",
+    				"Journal_number",
+    				"Journal_description",
+    				"initial_journal_balance",
+    				"journal_debit",
+                    "journal_credit",
+    				"journal_balance")
+    search_fields = ['Journal_name','Journal_number', 'Journal_description']
+
+
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserAccount, AccountAdmin)
+admin.site.register(Journal, JournalAdmin)
