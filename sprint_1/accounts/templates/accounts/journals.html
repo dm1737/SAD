@@ -73,8 +73,10 @@
                             {% csrf_token %}
                             {{ form.as_p }}                 
                                 <div class="panel-button">
-                                <button style="background-color:#555; color:white; text-align:center; padding: 2px;" class="btn btn-primary btn-lg" type="submit">
-                                    <span class="button-text">Save</span> </button>                              
+                                    <button style="background-color:#555; color:white; text-align:center; padding: 2px;" class="btn btn-primary btn-lg" type="submit">
+                                    <span class="button-text">Save</span> </button>  
+                                    <button style="background-color:white; color:#555; text-align:center; padding: 2px;" class="btn btn-primary btn-lg" type="reset">
+                                    <span class="button-text">Reset</span> </button>                            
                                 </div>
                             </form>
                         </fieldset>

@@ -39,5 +39,6 @@ class JournalForm(forms.ModelForm):
             'initial_journal_balance',
             'journal_debit',
             'journal_credit',
-            'journal_balance'
+            'journal_balance',
+            'source_document'
         ]

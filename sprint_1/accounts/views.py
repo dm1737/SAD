@@ -110,9 +110,12 @@ def ledger(request):
     return render(request = request, template_name = "accounts/ledger.html")
 
 def journals(request):
-    form = JournalForm(request.POST or None)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST': 
+        form = JournalForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            form.save()
+            form = JournalForm() 
+    else:
         form = JournalForm() 
     context = {'form': form}
     return render(request, 'accounts/journals.html', context)
