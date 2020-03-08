@@ -87,6 +87,7 @@ class Journal (models.Model):
     journal_debit = models.DecimalField(decimal_places=2, max_digits=10)
     journal_credit = models.DecimalField(decimal_places=2, max_digits=10)
     journal_balance = models.DecimalField(decimal_places=2, max_digits=10)
+    source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
     history = HistoricalRecords()
 
     def __str__(self):
