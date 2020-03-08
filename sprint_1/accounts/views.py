@@ -109,6 +109,9 @@ def view_account(request):
 def ledger(request):
     return render(request = request, template_name = "accounts/ledger.html")
 
+def journals(request):
+    return render(request = request, template_name = "accounts/journals.html")
+
 """if request.method == 'POST':
         print('here')
         if request.POST.get('username') and request.POST.get('password'):
