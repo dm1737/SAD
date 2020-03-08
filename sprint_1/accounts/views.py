@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm
+from .forms import NewUserForm, EmailForm, JournalForm 
 
 def homepage(request):
     return render(request = request,
@@ -108,6 +108,17 @@ def view_account(request):
 
 def ledger(request):
     return render(request = request, template_name = "accounts/ledger.html")
+
+def journals(request):
+    if request.method == 'POST': 
+        form = JournalForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            form.save()
+            form = JournalForm() 
+    else:
+        form = JournalForm() 
+    context = {'form': form}
+    return render(request, 'accounts/journals.html', context)
 
 """if request.method == 'POST':
         print('here')
