@@ -114,9 +114,14 @@ def journals(request):
         form = JournalForm(request.POST or None, request.FILES)
         if form.is_valid():
             current_user = request.user
-            print(current_user.profile.role)
-            if current_user.profile.role == 2:
+            if current_user.profile.role == 2:                
                 form.save()
+                Journalset = Journal.objects.filter(Journal_number=form.cleaned_data.get('Journal_number'))                           
+                if Journalset.exists():
+                    JournalID = Journalset[0].id
+                    obj = Journal.objects.get(id=JournalID)
+                    obj.status = 2
+                    obj.save()
                 form = JournalForm()
             if current_user.profile.role == 1:
                 form.save()

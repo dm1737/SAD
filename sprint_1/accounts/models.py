@@ -55,6 +55,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+
 class UserAccount (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_name = models.CharField(max_length=300, unique=True)
@@ -78,6 +79,14 @@ class UserAccount (models.Model):
 
 
 class Journal (models.Model):
+    Pending = 1
+    Accepted = 2
+    Rejected = 3
+    STATUS_CHOICES = (
+        (Pending, 'Pending'),
+        (Accepted, 'Accepted'),
+        (Rejected, 'Rejected'),
+    )
     #user = models.ForeignKey(User, related_name='User', null=True, on_delete=models.CASCADE)
     account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     Journal_name = models.CharField(max_length=300, unique=True)
@@ -88,6 +97,7 @@ class Journal (models.Model):
     journal_credit = models.DecimalField(decimal_places=2, max_digits=10)
     journal_balance = models.DecimalField(decimal_places=2, max_digits=10)
     source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=True, default=Pending)
     history = HistoricalRecords()
 
     def __str__(self):
