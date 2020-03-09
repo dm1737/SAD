@@ -123,9 +123,10 @@ def journals(request):
                     obj.status = 2
                     obj.save()
                 form = JournalForm()
-            if current_user.profile.role == 1:
+            else:                
                 form.save()
                 form = JournalForm() 
+
     else:
         form = JournalForm() 
     context = {'form': form}
