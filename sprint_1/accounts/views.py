@@ -113,8 +113,14 @@ def journals(request):
     if request.method == 'POST': 
         form = JournalForm(request.POST or None, request.FILES)
         if form.is_valid():
-            form.save()
-            form = JournalForm() 
+            current_user = request.user
+            print(current_user.profile.role)
+            if current_user.profile.role == 2:
+                form.save()
+                form = JournalForm()
+            if current_user.profile.role == 1:
+                form.save()
+                form = JournalForm() 
     else:
         form = JournalForm() 
     context = {'form': form}
