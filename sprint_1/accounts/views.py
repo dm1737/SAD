@@ -113,6 +113,7 @@ def journals(request):
     if request.method == 'POST': 
         form = JournalForm(request.POST or None, request.FILES)
         if form.is_valid():
+            
             form.save()
             form = JournalForm() 
     else:
