@@ -32,6 +32,9 @@
         <a href="/accounts" class="navbar-left"> Accounts </a>
         <a href="/ledger" class="navbar-left"> Ledger </a>
         <a href="/journals" class="navbar-left"> Journals </a>
+        {% if user.profile.role >= 2 %}
+        <a href="/manage_journals" class="navbar-left"> Manage Journals</a>
+        {% endif %}
         <a href="/help" class="navbar-left"> Help </a>
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>

@@ -132,6 +132,9 @@ def journals(request):
     context = {'form': form}
     return render(request, 'accounts/journals.html', context)
 
+def mangjournals(request):
+    
+    return render(request = request, template_name="accounts/manage_journals.html")
 """if request.method == 'POST':
         print('here')
         if request.POST.get('username') and request.POST.get('password'):

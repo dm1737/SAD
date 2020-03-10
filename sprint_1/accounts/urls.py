@@ -17,4 +17,5 @@ urlpatterns = [
     path("accounts/", views.view_account, name="account"),
     path("journals/", views.journals, name="journals"),
 	path("forgot_password/", views.fgtpassword, name="fgtpassword"),
+    path("manage_journals/", views.mangjournals, name="mangjournals")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

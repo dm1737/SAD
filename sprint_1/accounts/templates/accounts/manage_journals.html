@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+<h1>
+    <div style="text-align: center;">
+        <div style="display: inline-block; text-align: left; margin-bottom: 30px;">
+            <u>Journal Management</u>
+        </div>
+    </div>
+</h1>
+<div style="text-align: center;">
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Journal Name</th>
+            <th scope="col">Journal Number</th>
+            <th scope="col">Journal Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for journal in Journal %}
+        <tr>
+            <th scope="row">{{ journal.Journal_name }}</th>
+            <td>here</td>
+            <td>here</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
