@@ -1,33 +1,59 @@
 {% extends 'base.html' %}
 
-
-
 {% block body %}
-<h1>
-    <div style="text-align: center;">
-        <div style="display: inline-block; text-align: left; margin-bottom: 30px;">
-            <u>Journal Management</u>
-        </div>
-    </div>
-</h1>
-<div style="text-align: center;">
-<table align="center">
-    <thead>
+
+    <h2>Journals</h2>
+    
+    <table id="journals"> 
+        <thead>
         <tr>
-            <th scope="col">Journal Name</th>
-            <th scope="col">Journal Number</th>
-            <th scope="col">Journal Status</th>
+            <th>Account Name</th>
+            <th>Journal Name</th>
+            <th>Journal Number</th>
+            <th>Journal Description</th>
+            <th>Initial Balance</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Balance</th>
+            <th>Journal Status</th>
         </tr>
-    </thead>
-    <tbody>
-        {% for journal in Journal %}
-        <tr>
-            <th scope="row">{{ journal.Journal_name }}</th>
-            <td>here</td>
-            <td>here</td>
-        </tr>
+        </thead>       
+        <tbody>       
+        {% for journal in journal_list %}
+            <tr>
+            <td>{{ journal.account }}</td>
+            <td>{{ journal.Journal_name }}</td>
+            <td>{{ journal.Journal_number }}</td>
+            <td>{{ journal.Journal_description }}</td>
+            <td>{{ journal.initial_journal_balance }}</td>
+            <td>{{ journal.journal_debit }}</td>
+            <td>{{ journal.journal_credit }}</td>
+            <td>{{ journal.journal_balance }}</td>
+            <td><div class="dropdown">
+                <form>
+                  <div class="form-group">
+                    <select class="form-control" id={{journal.Journal_number}}>
+                      <option value="1">Pending</option>
+                      <option value="2">Accepted</option>
+                      <option value="3">Rejected</option>
+                    </select>
+                    <script type="text/javascript">
+                        var temp = "{{journal.status}}";
+                        var id = "{{journal.Journal_number}}";
+                        var dropDownMenu = document.getElementById(id);                        
+                        for(var i, j = 0; i = dropDownMenu.options[j]; j++) {
+                            if(i.value == temp) {
+                                dropDownMenu.selectedIndex = j;
+                                break;
+                            }
+                        }
+                    </script>           
+                  </div>
+                </form>
+            </div></td>
+            </tr>
         {% endfor %}
-    </tbody>
-</table>
-</div>
+        </tbody>
+    </table>
+    
 {% endblock %}

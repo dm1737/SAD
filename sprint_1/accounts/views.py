@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
 from .forms import NewUserForm, EmailForm, JournalForm 
+from django.views.generic import ListView
 
 def homepage(request):
     return render(request = request,
@@ -132,19 +133,14 @@ def journals(request):
     context = {'form': form}
     return render(request, 'accounts/journals.html', context)
 
-def mangjournals(request):
-    
-    return render(request = request, template_name="accounts/manage_journals.html")
-"""if request.method == 'POST':
-        print('here')
-        if request.POST.get('username') and request.POST.get('password'):
-            print('here')
-            post=Post()
-            post.username= request.POST.get('username')
-            post.password= request.POST.get('password')
-            post.save()
-                
-            return render(request, 'posts/home.html')  
+#def mangjournals(request):
 
-     else:
-            return render(request, 'accounts/login.html') """
+class ManageJournals(ListView):
+    model = Journal
+    template_name = 'accounts/manage_journals.html'
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the journals
+        context['journal_list'] = Journal.objects.all()
+        return context
