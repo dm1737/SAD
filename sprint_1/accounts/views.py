@@ -149,20 +149,35 @@ def manageJournals (request):
         if journalSet.exists():
             journalID = journalSet[0].id
             obj = Journal.objects.get(id=journalID)
-            print(obj.Journal_name)
-            print(status_cleaned)
             if status_cleaned=="Pending":
+                obj.reason_for_rejection=""
                 obj.status = 1
+                messages.info(request, "Saved!")
             if status_cleaned=="Accepted":
+                obj.reason_for_rejection=""
                 obj.status = 2
+                messages.info(request, "Saved!")
             if status_cleaned=="Rejected":
-                obj.status = 3
-            messages.info(request, "Saved!")
+                comment_name = str(journalID)
+                comment_name = "Rejected"+comment_name
+                comment = request.POST[comment_name]
+                if comment != "":
+                    obj.reason_for_rejection = comment
+                    obj.status = 3
+                    messages.info(request, "Saved!")
+                else:
+                    messages.warning(request,"Please enter a reason for rejecting this journal.")           
             obj.save()
-    
-    journal_list = Journal.objects.all()
-    return render(request = request,
+        journal_list = Journal.objects.all()
+        return render(request = request,
                     template_name = "accounts/manage_journals.html",
                     context={#"form":form,
                     "journal_list":journal_list
                     })
+    if request.method == 'GET':
+        journal_list = Journal.objects.all()
+        return render(request = request,
+                        template_name = "accounts/manage_journals.html",
+                        context={#"form":form,
+                        "journal_list":journal_list
+                        })
