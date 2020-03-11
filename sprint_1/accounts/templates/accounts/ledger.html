@@ -19,7 +19,7 @@
     </thead>
     <tbody id = "myTable">
         {% for journal in journals %}
-
+        {% if journal.status == 2 %}
         <tr>
             <th scope="row">{{ journal.date}}</th>
             <td>{{ journal.Journal_name }}</td>
@@ -29,7 +29,7 @@
             <td>{{ journal.journal_credit }}</td>
             <td>{{ journal.journal_balance }}</td>
         </tr>
-
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>

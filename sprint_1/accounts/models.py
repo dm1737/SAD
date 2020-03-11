@@ -103,7 +103,7 @@ class Journal (models.Model):
     date = models.DateField(auto_now_add = True)
     reason_for_rejection = models.CharField(max_length=1000, blank=True, null=False, default="")
     history = HistoricalRecords()
-    
+
     def get_absolute_url(self):
         return reverse('journal:detail', args=[self.Journal_number])
     def __str__(self):
