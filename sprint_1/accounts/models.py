@@ -1,12 +1,14 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.core.validators import MaxValueValidator, MinValueValidator
 from simple_history.models import HistoricalRecords
-from django.urls import reverse 
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import ProtectedError
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.urls import reverse
+
 
 
 class Profile(models.Model):
@@ -45,38 +47,50 @@ def is_active(self):
 @property
 def is_staff(self):
     return self.active
-    
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+#@receiver(post_save, sender=User)
+#def save_user_profile(sender, instance, **kwargs):
+ #   instance.profile.save()
 
+class Accounts (models.Model):
 
-
-class UserAccount (models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    account_name = models.CharField(max_length=300, unique=True)
-    account_number = models.PositiveIntegerField(unique=True)
-    account_description = models.TextField()
-    account_category = models.CharField(max_length=300)
-    account_subcategory = models.CharField(max_length=300)
-    initial_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0)])
-    debit = models.DecimalField(decimal_places=2, max_digits=10)
-    credit = models.DecimalField(decimal_places=2, max_digits=10)
-    balance = models.DecimalField(decimal_places=2, max_digits=10)
+    account_name = models.CharField(max_length=300, unique=True,null=True, blank=True)
+    account_number = models.PositiveIntegerField(unique=True,null=True, blank=True)
+    account_description = models.TextField(null=True, blank=True)
+    account_category = models.CharField(max_length=300,null=True, blank=True)
+    account_subcategory = models.CharField(max_length=300,null=True, blank=True)
+    initial_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(1)],null=True, blank=True)
+    debit = models.DecimalField(decimal_places=2, max_digits=10,null=True, blank=True)
+    credit = models.DecimalField(decimal_places=2, max_digits=10,null=True, blank=True)
+    balance = models.DecimalField(decimal_places=2, max_digits=10,null=True, blank=True)
     account_created = models.DateTimeField(default=datetime.now)
-    order = models.CharField(max_length=300)
-    statement = models.FileField(null=True)
-    comment = models.TextField()
-    history = HistoricalRecords()
-
+    order = models.CharField(max_length=300,null=True, blank=True)
+    statement = models.FileField(null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
+    history = HistoricalRecords(excluded_fields=['debit'])
+    
 
     def __str__(self):
         return self.account_name
+
+
+@receiver(pre_delete, sender=Accounts, dispatch_uid='post_pre_delete_signal')
+def protect_posts(sender, instance, using, **kwargs):
+    if instance.balance == 0: 
+        pass
+    else:  # Any other status types I add later will also be protected
+        raise ProtectedError('Only unpublished posts can be deleted.')
+
+
+
+
+
+
 
 
 class Journal (models.Model):
@@ -89,7 +103,7 @@ class Journal (models.Model):
         (Rejected, 'Rejected'),
     )
     #user = models.ForeignKey(User, related_name='User', null=True, on_delete=models.CASCADE)
-    account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    account = models.ForeignKey(Accounts, on_delete=models.CASCADE)
     Journal_name = models.CharField(max_length=300, unique=True)
     Journal_number = models.PositiveIntegerField(unique=True)
     Journal_description = models.TextField(null=True, blank=True)
@@ -99,10 +113,7 @@ class Journal (models.Model):
     journal_balance = models.DecimalField(decimal_places=2, max_digits=10)
     source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=True, default=Pending)
-    reason_for_rejection = models.CharField(max_length=1000, blank=True, null=False, default="")
     history = HistoricalRecords()
-    def get_absolute_url(self):
-        return reverse('journal:detail', args=[self.Journal_number])
+
     def __str__(self):
         return self.Journal_name
-
