@@ -107,7 +107,11 @@ def view_account(request):
     return render(request, 'accounts/accountinfo.html', args)
 
 def ledger(request):
-    return render(request = request, template_name = "accounts/ledger.html")
+    model = Journal
+    query_set = Journal.objects.all()
+    return render(request = request,
+                  template_name = "accounts/ledger.html",
+                  context = {"journals": query_set})
 
 def journals(request):
     if request.method == 'POST': 

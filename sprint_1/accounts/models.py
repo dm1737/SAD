@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from datetime import date
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -98,6 +99,7 @@ class Journal (models.Model):
     journal_balance = models.DecimalField(decimal_places=2, max_digits=10)
     source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=True, default=Pending)
+    date = models.DateField(auto_now_add = True)
     history = HistoricalRecords()
 
     def __str__(self):
