@@ -1,20 +1,17 @@
-from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile, Journal
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from .models import Profile, Journal, Accounts
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm, JournalForm
-from django.views.generic import CreateView, DeleteView, UpdateView
-from django.urls import reverse_lazy
-from django.urls import reverse 
-import re 
+from .forms import NewUserForm, EmailForm, JournalForm 
+
+
 
 
 def homepage(request):
     return render(request = request,
-                template_name="accounts/home.html",)
-                
+                template_name="accounts/home.html")
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -39,6 +36,7 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("accounts:homepage")
+
 def fgtpassword(request):
     if request.method == 'GET':
         form = EmailForm()
@@ -65,51 +63,44 @@ def fgtpassword(request):
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
-        try:
-            if form.is_valid():
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    if user.profile.attempts < 3:
-                        user.profile.attempts = 0
-                        login(request, user)                        
-                        messages.info(request, f"You are now logged in as {username}")
-                        return redirect('/')
-                    else:
-                        user.is_active = False
-                        user.save()
-                        messages.warning(request, 'Your account has been locked out because of too many failed login attempts.')
-            else:
-                raise Exception
-        except:
+        if form.is_valid():
             username = form.cleaned_data.get('username')
-            userset = User.objects.filter(username=username)           
-            if userset.exists():
-                userID = userset[0].id
-                obj = User.objects.get(id=userID)
-                obj.profile.attempts += 1
-                obj.save()
-                if obj.profile.attempts > 2:
-                    messages.warning(request, 'Your account has been locked out because of too many failed login attempts.')
-                else:                               
-                    messages.error(request, "Invalid password.")
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}")
+                return redirect('/')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request = request,
                     template_name = "accounts/login.html",
                     context={"form":form})
 
+def view_account(request):
+    queryset = Accounts.objects.all() # list of objects
+    context = {
+        "object_list": queryset
+    }    
+    return render(request, 'accounts/account_list.html', context)
+
+
+def view_accountinfo(request, id):
+    obj = get_object_or_404(Accounts, id=id)
+    context = {
+        "object": obj
+    }
+    return render(request, "accounts/accountinfo.html", context)    
+
 def profile(request):
-    return render(request = request,
-                    template_name = "accounts/profile.html")
-                    #context={"form":form})
+    return render(request = request, template_name = "accounts/profile.html")  
 
 def help(request):
-    return render(request = request, template_name = "accounts/help.html") 
+    return render(request = request, template_name = "accounts/help.html")   
 
-def view_account(request):
-    args = {'user': request.user}
-    return render(request, 'accounts/accountinfo.html', args)
 
 def ledger(request):
     return render(request = request, template_name = "accounts/ledger.html")
@@ -180,4 +171,16 @@ def manageJournals (request):
                         template_name = "accounts/manage_journals.html",
                         context={#"form":form,
                         "journal_list":journal_list
-                        })
+                        })    
+"""if request.method == 'POST':
+        print('here')
+        if request.POST.get('username') and request.POST.get('password'):
+            print('here')
+            post=Post()
+            post.username= request.POST.get('username')
+            post.password= request.POST.get('password')
+            post.save()
+                
+            return render(request, 'posts/home.html')  
+     else:
+            return render(request, 'accounts/login.html') """

@@ -3,7 +3,6 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-#from .views import ManageJournals
 
 app_name = 'accounts'
 
@@ -16,8 +15,8 @@ urlpatterns = [
     path("logout/", views.logout_request, name="logout"),
     path("login/", views.login_request, name="login"),
     path("accounts/", views.view_account, name="account"),
-    path("journals/", views.journals, name="journals"),
 	path("forgot_password/", views.fgtpassword, name="fgtpassword"),
-    #path("manage_journals/", ManageJournals.as_view(), name="journal-create"),
+	path("journals/", views.journals, name="journals"),
     path("manage_journals/", views.manageJournals, name="managejournals"),
+	path("account/<int:id>/", views.view_accountinfo, name="accountinfo"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
