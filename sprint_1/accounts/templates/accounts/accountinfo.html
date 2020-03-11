@@ -1,6 +1,3 @@
-{% extends 'base.html' %}
-
-
 
 {% block body %}
 <h2>
@@ -37,55 +34,55 @@
         <div>
             <tr>
                 <td><b>Account Name: </b></td>
-                <td>{{ user.useraccount.account_name }}</td>
+                <td>{{ object.account_name }}</td>
             </tr>
             <tr>
                 <td><b>Account Number:</b></td>
-                <td> {{ user.UserAccount.account_number }}</td>
+                <td> {{ object.account_number }}</td>
             </tr>
             <tr>
                 <td><b>Account Description: </b></td>
-                <td>{{ user.useraccount.account_description }}</td>
+                <td>{{ object.account_description }}</td>
             </tr>
             <tr>
                 <td><b>Account Category: </b></td>
-                <td>{{ user.useraccount.account_category }} </td>
+                <td>{{ object.account_category }} </td>
             </tr>
             <tr>
                 <td><b>Subcategory: </b></td>
-                <td>{{ user.useraccount.account_subcategory }} </td>
+                <td>{{ object.account_subcategory }} </td>
             </tr>
             <tr>
                 <td><b>Initial Balance: </b></td>
-                <td>{{ user.useraccount.initial_balance }} </td>
+                <td>{{ object.initial_balance }} </td>
             </tr>
             <tr>
                 <td><b>Debit: </b></td>
-                <td>{{ user.useraccount.debit }}</td>
+                <td>{{ object.debit }}</td>
             </tr>
             <tr>
                 <td><b>Credit: </b></td>
-                <td>{{ user.useraccount.credit}} </td>
+                <td>{{ object.credit}} </td>
             </tr>
             <tr>
                 <td><b>Balance:</b></td>
-                <td> {{ user.useraccount.balance }}</td>
+                <td> {{ object.balance }}</td>
             </tr>
             <tr>
                 <td><b>Account Created: </b></td>
-                <td>{{ user.useraccount.account_created }} </td>
+                <td>{{ object.account_created }} </td>
             </tr>
             <tr>
                 <td><b>Order: </b></td>
-                <td>{{ user.useraccount.order }}</td>
+                <td>{{ object.order }}</td>
             </tr>
             <tr>
                 <td><b>Statement: </b></td>
-                <td>{{ user.useraccount.statement }}</td>
+                <td>{{ object.statement }}</td>
             </tr>
             <tr>
                 <td><b>Comment: </b></td>
-                <td>{{ user.useraccount.comment }}</td>
+                <td>{{ object.comment }}</td>
             </tr>
         </div>
     </table>
