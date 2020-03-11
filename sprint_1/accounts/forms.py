@@ -42,3 +42,4 @@ class JournalForm(forms.ModelForm):
             'journal_balance',
             'source_document'
         ]
+

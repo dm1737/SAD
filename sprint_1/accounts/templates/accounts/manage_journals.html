@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h2>Journals</h2>
+    
+    <table id="journals"> 
+        <thead>
+        <tr>
+            <th>Account Name</th>
+            <th>Journal Name</th>
+            <th>Journal Number</th>
+            <th>Journal Description</th>
+            <th>Initial Balance</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Balance</th>
+            <th>Journal Status</th>
+            {% if user.profile.role == 1 %}
+            <th>Reason for Rejection</th>
+            {% endif %}
+        </tr>
+        </thead>       
+        <tbody>       
+        {% for journal in journal_list %}
+            <tr>
+            <td>{{ journal.account }}</td>
+            <td>{{ journal.Journal_name }}</td>
+            <td>{{ journal.Journal_number }}</td>
+            <td>{{ journal.Journal_description }}</td>
+            <td>{{ journal.initial_journal_balance }}</td>
+            <td>{{ journal.journal_debit }}</td>
+            <td>{{ journal.journal_credit }}</td>
+            <td>{{ journal.journal_balance }}</td>
+            {% if user.profile.role >= 2 %}
+            <td><div class="dropdown">
+                <form method="POST" action="">{% csrf_token %}
+                  <div class="form-group">
+                    <select class="form-control" name="status" id={{journal.Journal_number}} onchange="if (this.value == 'Rejected{{journal.Journal_number}}'){this.form['Rejected{{journal.Journal_number}}'].style.visibility='visible'}else {this.form['Rejected{{journal.Journal_number}}'].style.visibility='hidden'};" >
+                      <option value="Pending{{journal.Journal_number}}">Pending</option>
+                      <option value="Accepted{{journal.Journal_number}}">Accepted</option>
+                      <option value="Rejected{{journal.Journal_number}}">Rejected</option>
+                    </select>
+                    <textarea class="form-control input-lg" rows=3 name="Rejected{{journal.Journal_number}}" style="visibility:hidden;"></textarea>
+                    <input type="submit" value="Save Changes">
+                    <script type="text/javascript">
+                        var temp = "{{journal.status}}";          
+                        var objSelect = document.getElementById("{{journal.Journal_number}}");
+                        var textbox = document.getElementsByName("Rejected{{journal.Journal_number}}")[0]
+                        console.log(textbox)
+                        //Set selected
+                        setSelectedValue(objSelect, temp);
+                        function setSelectedValue(selectObj, valueToSet) {
+                            for (var i = 0; i < selectObj.options.length; i++) {  
+                                var cleaned_string =  selectObj.options[i].value.replace(/[0-9]/g, '');
+                                var intended_value = 0;
+                                switch (cleaned_string){
+                                    case "Pending":
+                                        intended_value = 1;
+                                        break;
+                                    case "Accepted":
+                                        intended_value = 2;
+                                        break;
+                                    case "Rejected":
+                                        intended_value = 3;
+                                        textbox.style.visibility='visible';
+                                        break;
+                                }
+                                //console.log("Is "+intended_value + " equal to " + valueToSet);
+                                if (intended_value== valueToSet) {
+                                    selectObj.options[i].selected = true;
+                                    //console.log("changed");
+                                    return;
+                                }
+                            }
+                        }
+                    </script>           
+                  </div>
+                </form>
+            
+            </div></td>
+            {% endif %}
+            {% if user.profile.role == 1 %}
+                {% if journal.status == 1%}
+                    <td>Pending</td>
+                {% endif %}
+                {% if journal.status == 2%}
+                    <td>Accepted</td>
+                {% endif %}
+                {% if journal.status == 3%}
+                    <td>Rejected</td>
+                {% endif %}
+                <td>{{ journal.reason_for_rejection }}</td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
