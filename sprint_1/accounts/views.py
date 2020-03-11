@@ -147,7 +147,7 @@ def manageJournals (request):
         status_cleaned = "".join(status_list)
         journalSet = Journal.objects.filter(Journal_number=number)           
         if journalSet.exists():
-            journalID = journalSet[0].Journal_number
+            journalID = journalSet[0].id
             obj = Journal.objects.get(id=journalID)
             print(obj.Journal_name)
             print(status_cleaned)
@@ -157,10 +157,12 @@ def manageJournals (request):
                 obj.status = 2
             if status_cleaned=="Rejected":
                 obj.status = 3
+            messages.info(request, "Saved!")
             obj.save()
     
     journal_list = Journal.objects.all()
     return render(request = request,
                     template_name = "accounts/manage_journals.html",
                     context={#"form":form,
-                    "journal_list":journal_list})
+                    "journal_list":journal_list
+                    })

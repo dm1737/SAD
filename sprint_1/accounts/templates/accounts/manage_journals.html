@@ -29,6 +29,7 @@
             <td>{{ journal.journal_debit }}</td>
             <td>{{ journal.journal_credit }}</td>
             <td>{{ journal.journal_balance }}</td>
+            {% if user.profile.role >= 2 %}
             <td><div class="dropdown">
                 <form method="POST" action="">{% csrf_token %}
                   <div class="form-group">
@@ -38,7 +39,8 @@
                       <option value="Rejected{{journal.Journal_number}}">Rejected</option>
                     </select>
                     <script type="text/javascript">
-                        var temp = "{{journal.status}}";           
+                        var temp = "{{journal.status}}"; 
+                        console.log("{{journal.Journal_number}}");          
                         var objSelect = document.getElementById("{{journal.Journal_number}}");
                         //Set selected
                         setSelectedValue(objSelect, temp);
@@ -57,10 +59,10 @@
                                         intended_value = 3;
                                         break;
                                 }
-                                console.log("Is "+intended_value + " equal to " + valueToSet);
+                                //console.log("Is "+intended_value + " equal to " + valueToSet);
                                 if (intended_value== valueToSet) {
                                     selectObj.options[i].selected = true;
-                                    console.log("changed");
+                                    //console.log("changed");
                                     return;
                                 }
                             }
@@ -68,7 +70,20 @@
                     </script>           
                   </div>
                 </form>
+            
             </div></td>
+            {% endif %}
+            {% if user.profile.role == 1 %}
+                {% if journal.status == 1%}
+                    <td>Pending</td>
+                {% endif %}
+                {% if journal.status == 2%}
+                    <td>Accepted</td>
+                {% endif %}
+                {% if journal.status == 3%}
+                    <td>Rejected</td>
+                {% endif %}
+            {% endif %}
             </tr>
         {% endfor %}
         </tbody>
