@@ -30,21 +30,39 @@
             <td>{{ journal.journal_credit }}</td>
             <td>{{ journal.journal_balance }}</td>
             <td><div class="dropdown">
-                <form>
+                <form method="POST" action="">{% csrf_token %}
                   <div class="form-group">
-                    <select class="form-control" id={{journal.Journal_number}}>
-                      <option value="1">Pending</option>
-                      <option value="2">Accepted</option>
-                      <option value="3">Rejected</option>
+                    <select class="form-control" name="status" id={{journal.Journal_number}} onchange="form.submit();">
+                      <option value="Pending{{journal.Journal_number}}">Pending</option>
+                      <option value="Accepted{{journal.Journal_number}}">Accepted</option>
+                      <option value="Rejected{{journal.Journal_number}}">Rejected</option>
                     </select>
                     <script type="text/javascript">
-                        var temp = "{{journal.status}}";
-                        var id = "{{journal.Journal_number}}";
-                        var dropDownMenu = document.getElementById(id);                        
-                        for(var i, j = 0; i = dropDownMenu.options[j]; j++) {
-                            if(i.value == temp) {
-                                dropDownMenu.selectedIndex = j;
-                                break;
+                        var temp = "{{journal.status}}";           
+                        var objSelect = document.getElementById("{{journal.Journal_number}}");
+                        //Set selected
+                        setSelectedValue(objSelect, temp);
+                        function setSelectedValue(selectObj, valueToSet) {
+                            for (var i = 0; i < selectObj.options.length; i++) {  
+                                var cleaned_string =  selectObj.options[i].value.replace(/[0-9]/g, '');
+                                var intended_value = 0;
+                                switch (cleaned_string){
+                                    case "Pending":
+                                        intended_value = 1;
+                                        break;
+                                    case "Accepted":
+                                        intended_value = 2;
+                                        break;
+                                    case "Rejected":
+                                        intended_value = 3;
+                                        break;
+                                }
+                                console.log("Is "+intended_value + " equal to " + valueToSet);
+                                if (intended_value== valueToSet) {
+                                    selectObj.options[i].selected = true;
+                                    console.log("changed");
+                                    return;
+                                }
                             }
                         }
                     </script>           
@@ -55,5 +73,4 @@
         {% endfor %}
         </tbody>
     </table>
-    
 {% endblock %}
