@@ -99,6 +99,7 @@ class Journal (models.Model):
     journal_balance = models.DecimalField(decimal_places=2, max_digits=10)
     source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=True, default=Pending)
+    reason_for_rejection = models.CharField(max_length=1000, blank=True, null=False, default="")
     history = HistoricalRecords()
     def get_absolute_url(self):
         return reverse('journal:detail', args=[self.Journal_number])

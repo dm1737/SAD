@@ -16,6 +16,9 @@
             <th>Credit</th>
             <th>Balance</th>
             <th>Journal Status</th>
+            {% if user.profile.role == 1 %}
+            <th>Reason for Rejection</th>
+            {% endif %}
         </tr>
         </thead>       
         <tbody>       
@@ -33,15 +36,18 @@
             <td><div class="dropdown">
                 <form method="POST" action="">{% csrf_token %}
                   <div class="form-group">
-                    <select class="form-control" name="status" id={{journal.Journal_number}} onchange="form.submit();">
+                    <select class="form-control" name="status" id={{journal.Journal_number}} onchange="if (this.value == 'Rejected{{journal.Journal_number}}'){this.form['Rejected{{journal.Journal_number}}'].style.visibility='visible'}else {this.form['Rejected{{journal.Journal_number}}'].style.visibility='hidden'};" >
                       <option value="Pending{{journal.Journal_number}}">Pending</option>
                       <option value="Accepted{{journal.Journal_number}}">Accepted</option>
                       <option value="Rejected{{journal.Journal_number}}">Rejected</option>
                     </select>
+                    <textarea class="form-control input-lg" rows=3 name="Rejected{{journal.Journal_number}}" style="visibility:hidden;"></textarea>
+                    <input type="submit" value="Save Changes">
                     <script type="text/javascript">
-                        var temp = "{{journal.status}}"; 
-                        console.log("{{journal.Journal_number}}");          
+                        var temp = "{{journal.status}}";          
                         var objSelect = document.getElementById("{{journal.Journal_number}}");
+                        var textbox = document.getElementsByName("Rejected{{journal.Journal_number}}")[0]
+                        console.log(textbox)
                         //Set selected
                         setSelectedValue(objSelect, temp);
                         function setSelectedValue(selectObj, valueToSet) {
@@ -57,6 +63,7 @@
                                         break;
                                     case "Rejected":
                                         intended_value = 3;
+                                        textbox.style.visibility='visible';
                                         break;
                                 }
                                 //console.log("Is "+intended_value + " equal to " + valueToSet);
@@ -83,6 +90,7 @@
                 {% if journal.status == 3%}
                     <td>Rejected</td>
                 {% endif %}
+                <td>{{ journal.reason_for_rejection }}</td>
             {% endif %}
             </tr>
         {% endfor %}
