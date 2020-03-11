@@ -4,7 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm, JournalForm 
+from .forms import NewUserForm, EmailForm, JournalForm
+from django.views.generic import CreateView, DeleteView, UpdateView
+from django.urls import reverse_lazy
+from django.urls import reverse 
+import re 
+
 
 def homepage(request):
     return render(request = request,
@@ -132,16 +137,32 @@ def journals(request):
     context = {'form': form}
     return render(request, 'accounts/journals.html', context)
 
-"""if request.method == 'POST':
-        print('here')
-        if request.POST.get('username') and request.POST.get('password'):
-            print('here')
-            post=Post()
-            post.username= request.POST.get('username')
-            post.password= request.POST.get('password')
-            post.save()
-                
-            return render(request, 'posts/home.html')  
-
-     else:
-            return render(request, 'accounts/login.html') """
+def manageJournals (request):
+    if request.method == 'POST':
+        status = request.POST['status']
+        number_list = re.findall(r'\d+', status)
+        a_string = "".join(number_list)
+        number = int(a_string)
+        status_list = re.findall(r'\D+',status)
+        status_cleaned = "".join(status_list)
+        journalSet = Journal.objects.filter(Journal_number=number)           
+        if journalSet.exists():
+            journalID = journalSet[0].id
+            obj = Journal.objects.get(id=journalID)
+            print(obj.Journal_name)
+            print(status_cleaned)
+            if status_cleaned=="Pending":
+                obj.status = 1
+            if status_cleaned=="Accepted":
+                obj.status = 2
+            if status_cleaned=="Rejected":
+                obj.status = 3
+            messages.info(request, "Saved!")
+            obj.save()
+    
+    journal_list = Journal.objects.all()
+    return render(request = request,
+                    template_name = "accounts/manage_journals.html",
+                    context={#"form":form,
+                    "journal_list":journal_list
+                    })

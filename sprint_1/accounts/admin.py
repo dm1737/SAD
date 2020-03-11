@@ -45,7 +45,8 @@ class JournalAdmin(SimpleHistoryAdmin):
     				"initial_journal_balance",
     				"journal_debit",
                     "journal_credit",
-    				"journal_balance")
+    				"journal_balance",
+                    "status")
     search_fields = ['Journal_name','Journal_number', 'Journal_description']
 
 

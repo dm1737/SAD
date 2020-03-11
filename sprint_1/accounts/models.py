@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from simple_history.models import HistoricalRecords
+from django.urls import reverse 
 
 
 class Profile(models.Model):
@@ -99,7 +100,8 @@ class Journal (models.Model):
     source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=True, default=Pending)
     history = HistoricalRecords()
-
+    def get_absolute_url(self):
+        return reverse('journal:detail', args=[self.Journal_number])
     def __str__(self):
         return self.Journal_name
 

@@ -32,6 +32,7 @@
         <a href="/accounts" class="navbar-left"> Accounts </a>
         <a href="/ledger" class="navbar-left"> Ledger </a>
         <a href="/journals" class="navbar-left"> Journals </a>
+        <a href="/manage_journals" class="navbar-left"> Manage Journals</a>
         <a href="/help" class="navbar-left"> Help </a>
         
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
@@ -72,7 +73,18 @@
       padding-right:15px;
       font-size: 15px !important;
     }
-  
+    #journals {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+    #journals td, #journals th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+    h2 {
+    text-align: center;
+        }
   </style>
 </head>
 {% endblock %}
