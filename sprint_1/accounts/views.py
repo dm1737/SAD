@@ -162,8 +162,7 @@ def manageJournals (request):
                 obj.status = 2
                 messages.info(request, "Saved!")
             if status_cleaned=="Rejected":
-                comment_name = str(journalID)
-                comment_name = "Rejected"+comment_name
+                comment_name=str(request.POST.get("status"))
                 comment = request.POST[comment_name]
                 if comment != "":
                     obj.reason_for_rejection = comment
