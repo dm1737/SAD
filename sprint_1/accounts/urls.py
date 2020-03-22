@@ -1,5 +1,6 @@
 from django.contrib.auth.views import LoginView
 from django.urls import path, include
+from django.conf.urls import url
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -18,6 +19,7 @@ urlpatterns = [
     path("accounts/", views.view_account, name="account"),
     path("journals/", views.journals, name="journals"),
 	path("forgot_password/", views.fgtpassword, name="fgtpassword"),
-    #path("manage_journals/", ManageJournals.as_view(), name="journal-create"),
+    path("journal_view/", views.journal_view, name="journal_view"),
+    path("journal_view/<int:id>",views.journal_view, name="journal_view"),
     path("manage_journals/", views.manageJournals, name="managejournals"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

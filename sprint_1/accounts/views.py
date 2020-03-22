@@ -184,3 +184,10 @@ def manageJournals (request):
                         context={#"form":form,
                         "journal_list":journal_list
                         })
+def journal_view (request,id):
+    journal = Journal.objects.get(Journal_number=id)
+    print(journal)
+    return render(request = request,
+                    template_name = "accounts/journal_view.html",
+                    context={"journal":journal,                      
+                    })
