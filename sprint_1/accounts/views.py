@@ -162,8 +162,7 @@ def manageJournals (request):
                 obj.status = 2
                 messages.info(request, "Saved!")
             if status_cleaned=="Rejected":
-                comment_name = str(journalID)
-                comment_name = "Rejected"+comment_name
+                comment_name=str(request.POST.get("status"))
                 comment = request.POST[comment_name]
                 if comment != "":
                     obj.reason_for_rejection = comment
@@ -185,3 +184,10 @@ def manageJournals (request):
                         context={#"form":form,
                         "journal_list":journal_list
                         })
+def journal_view (request,id):
+    journal = Journal.objects.get(Journal_number=id)
+    print(journal)
+    return render(request = request,
+                    template_name = "accounts/journal_view.html",
+                    context={"journal":journal,                      
+                    })

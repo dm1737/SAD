@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>
+    <div style="text-align: center;">
+        <div style="display: inline-block; text-align: left; margin-bottom: 30px;">
+            <u>Journal Info</u>
+        </div>
+    </div>
+</h1>
+<div style="text-align: center;">
+    <div style="display: inline-block; text-align: left;">
+            <p><b>Account:</b> {{journal.Journal_name}}</p>
+            <p><b>Number:</b> {{journal.Journal_number}}</p>
+            <p><b>Description:</b> {{journal.Journal_description}}</p>
+            <p><b>Initial Balance:</b> {{journal.initial_journal_balance}}</p>
+            <p><b>Debit: </b>{{journal.journal_debit}}</p>
+            <p><b>Credit: </b>{{journal.journal_credit}}</p>
+            <p><b>Balance: </b>{{journal.journal_balance}}</p>
+            <p><b>Source Document:</b> {{journal.source_document}}</p>
+            <p><b>Date: </b>{{journal.date}}</p>
+    </div>
+</div>
+{% endblock %}

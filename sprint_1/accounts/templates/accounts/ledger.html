@@ -9,9 +9,8 @@
     <thead>
         <tr>
             <th scope="col">Date Created</th>
-            <th scope="col">Journal Name</th>
-            <th scope="col">Account Name</th>
             <th scope="col">Journal Description</th>
+            <th scope="col">Post Ref</th>
             <th scope="col">Debit</th>
             <th scope="col">Credit</th>
             <th scope="col">Balance</th>
@@ -20,11 +19,10 @@
     <tbody id = "myTable">
         {% for journal in journals %}
         {% if journal.status == 2 %}
-        <tr>
+        <tr id="{{journal.account.account_name}}">
             <th scope="row">{{ journal.date}}</th>
-            <td>{{ journal.Journal_name }}</td>
-            <td>{{ journal.account.account_name }}</td>
             <td>{{ journal.Journal_description }}</td>
+            <td><a href="/journal_view/{{journal.Journal_number}}">{{ journal.Journal_number }}</a></td>
             <td>{{ journal.journal_debit }}</td>
             <td>{{ journal.journal_credit }}</td>
             <td>{{ journal.journal_balance }}</td>
@@ -46,7 +44,7 @@ function myFunction() {
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
     if (td) {
-      txtValue = td.textContent || td.innerText;
+      txtValue = tr[i].id;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
         tr[i].style.display = "";
       } else {
