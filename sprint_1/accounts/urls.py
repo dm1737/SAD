@@ -18,6 +18,7 @@ urlpatterns = [
     path("login/", views.login_request, name="login"),
     path("accounts/", views.view_account, name="account"),
     path("journals/", views.journals, name="journals"),
+    path("adjusting_journals/", views.adjusting_journals, name="adjusting_journals"),
 	path("forgot_password/", views.fgtpassword, name="fgtpassword"),
     path("journal_view/", views.journal_view, name="journal_view"),
     path("journal_view/<int:id>",views.journal_view, name="journal_view"),
