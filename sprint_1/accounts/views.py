@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile, Journal
+from .models import Profile, Journal, AdjustingJournalEntry
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm, JournalForm
+from .forms import NewUserForm, EmailForm, JournalForm, AdjustingJournalForm
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.urls import reverse 
@@ -191,3 +191,26 @@ def journal_view (request,id):
                     template_name = "accounts/journal_view.html",
                     context={"journal":journal,                      
                     })
+
+def adjusting_journals(request):
+    if request.method == 'POST': 
+        form = AdjustingJournalForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            current_user = request.user
+            if current_user.profile.role == 2:                
+                form.save()
+                Journalset = Journal.objects.filter(Adjusted_journal_number=form.cleaned_data.get('Journal_number'))                           
+                if Journalset.exists():
+                    JournalID = Journalset[0].id
+                    obj = Journal.objects.get(id=JournalID)
+                    obj.status = 2
+                    obj.save()
+                form = AdjustingJournalForm()
+            else:                
+                form.save()
+                form = AdjustingJournalForm() 
+
+    else:
+        form = AdjustingJournalForm() 
+    context = {'form': form}
+    return render(request, 'accounts/adjusting_journals.html', context)

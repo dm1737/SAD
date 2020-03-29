@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block head %}
+    {% block head %}
 
     {% load static %}
     <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
@@ -11,8 +11,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-      
-      <a href="/" class="navbar-left"><img src="/static/images/logo.svg"></a>
+
+        <a href="/" class="navbar-left"><img src="/static/images/logo.svg"></a>
         {% include 'accounts/includes/messaging.html' %} 
         <a href="/" class="navbar-left"> Home </a>
         <a href="/accounts" class="navbar-left"> Accounts </a>
@@ -63,7 +63,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <center><h3 class="panel-title">Add a Journal Entry: </h3></center>
+                        <center><h3 class="panel-title">Add an Adjusting Journal Entry: </h3></center>
                     </div>
                       <div class="panel-body">
                         <fieldset>

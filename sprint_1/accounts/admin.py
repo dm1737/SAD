@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from simple_history.admin import SimpleHistoryAdmin
 from .models import UserAccount
-from .models import Journal
+from .models import Journal, AdjustingJournalEntry
 
 
 class AccountAdmin (SimpleHistoryAdmin):
@@ -50,7 +50,21 @@ class JournalAdmin(SimpleHistoryAdmin):
     search_fields = ['Journal_name','Journal_number', 'Journal_description']
 
 
+class AdjustingJournalAdmin(SimpleHistoryAdmin):
+    
+    list_display = (
+                    "account",
+                    "Adjusted_journal_name",
+    				"Adjusted_journal_number",
+    				"Adjusted_journal_description",
+    				"Adjusted_journal_debit",
+                    "Adjusted_journal_credit",
+                    "Adjusted_status")
+    search_fields = ['Adjusted_journal_name','Adjusted_journal_number', 'Adjusted_journal_description']
+
+
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserAccount, AccountAdmin)
 admin.site.register(Journal, JournalAdmin)
+admin.site.register(AdjustingJournalEntry, AdjustingJournalAdmin)
