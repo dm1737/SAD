@@ -129,7 +129,7 @@ def journals(request):
                 if Journalset.exists():
                     JournalID = Journalset[0].id
                     obj = Journal.objects.get(id=JournalID)
-                    obj.status = 2
+                    obj.status = 1
                     obj.save()
                 form = JournalForm()
             else:                
@@ -172,21 +172,24 @@ def manageJournals (request):
                     messages.warning(request,"Please enter a reason for rejecting this journal.")           
             obj.save()
         journal_list = Journal.objects.all()
-        return render(request = request,
-                    template_name = "accounts/manage_journals.html",
-                    context={#"form":form,
-                    "journal_list":journal_list
-                    })
-    if request.method == 'GET':
-        journal_list = Journal.objects.all()
+        ad_journal_list = AdjustingJournalEntry.objects.all()
         return render(request = request,
                         template_name = "accounts/manage_journals.html",
                         context={#"form":form,
-                        "journal_list":journal_list
+                        "journal_list":journal_list,
+                        "ad_journal_list":ad_journal_list
+                        })
+    if request.method == 'GET':
+        journal_list = Journal.objects.all()
+        ad_journal_list = AdjustingJournalEntry.objects.all()
+        return render(request = request,
+                        template_name = "accounts/manage_journals.html",
+                        context={#"form":form,
+                        "journal_list":journal_list,
+                        "ad_journal_list":ad_journal_list
                         })
 def journal_view (request,id):
     journal = Journal.objects.get(Journal_number=id)
-    print(journal)
     return render(request = request,
                     template_name = "accounts/journal_view.html",
                     context={"journal":journal,                      
@@ -199,10 +202,10 @@ def adjusting_journals(request):
             current_user = request.user
             if current_user.profile.role == 2:                
                 form.save()
-                Journalset = Journal.objects.filter(Adjusted_journal_number=form.cleaned_data.get('Journal_number'))                           
+                Journalset = AdjustingJournalEntry.objects.filter(Adjusted_journal_number=form.cleaned_data.get('Journal_number'))                           
                 if Journalset.exists():
                     JournalID = Journalset[0].id
-                    obj = Journal.objects.get(id=JournalID)
+                    obj = AdjustingJournalEntry.objects.get(id=JournalID)
                     obj.status = 2
                     obj.save()
                 form = AdjustingJournalForm()

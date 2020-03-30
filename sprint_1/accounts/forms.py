@@ -42,6 +42,55 @@ class JournalForm(forms.ModelForm):
             'journal_balance',
             'source_document'
         ]
+        widgets = {
+            'account': forms.Select(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Journal_name': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+			
+            'Journal_number': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Journal_description': forms.Textarea(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'initial_journal_balance': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'journal_debit': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'journal_credit': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'journal_balance': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'source_document': forms.ClearableFileInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+             
+			}
 
 class AdjustingJournalForm(forms.ModelForm):
     class Meta:
@@ -55,3 +104,42 @@ class AdjustingJournalForm(forms.ModelForm):
             'Adjusted_journal_credit',
             'Adjusted_source_document'
         ]
+        widgets = {
+            'account': forms.Select(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Adjusted_Journal_name': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+			
+            'Adjusted_Journal_number': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Adjusted_Journal_description': forms.Textarea(
+				attrs={
+					'class': 'form-control'
+					}
+				),            
+            'Adjusted_journal_debit': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Adjusted_journal_credit': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Adjusted_source_document': forms.ClearableFileInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+             
+			}
