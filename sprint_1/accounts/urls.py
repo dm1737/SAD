@@ -17,6 +17,7 @@ urlpatterns = [
     path("logout/", views.logout_request, name="logout"),
     path("login/", views.login_request, name="login"),
     path("accounts/", views.view_account, name="account"),
+    path("account/<int:id>/", views.view_accountinfo, name="accountinfo"),
     path("journals/", views.journals, name="journals"),
     path("adjusting_journals/", views.adjusting_journals, name="adjusting_journals"),
 	path("forgot_password/", views.fgtpassword, name="fgtpassword"),

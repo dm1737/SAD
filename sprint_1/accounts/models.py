@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from datetime import date
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -58,11 +58,27 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 
-class UserAccount (models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Account (models.Model):
+    Debit = 1
+    Credit = 2
+    Rejected = 3
+    SIDE_CHOICES = (
+        (Debit, 'Debit'),
+        (Credit, 'Credit'),
+        )
+
+    IS = 1
+    BS= 2
+    RE = 3
+    STATEMENT_CHOICES = (
+        (IS, 'IS'),
+        (BS, 'BS'),
+        (RE, 'RE'),   
+        )
     account_name = models.CharField(max_length=300, unique=True)
     account_number = models.PositiveIntegerField(unique=True)
     account_description = models.TextField()
+    normal_side=models.PositiveSmallIntegerField(choices=SIDE_CHOICES, null=False, blank=True, default=Debit)
     account_category = models.CharField(max_length=300)
     account_subcategory = models.CharField(max_length=300)
     initial_balance = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0)])
@@ -70,15 +86,23 @@ class UserAccount (models.Model):
     credit = models.DecimalField(decimal_places=2, max_digits=10)
     balance = models.DecimalField(decimal_places=2, max_digits=10)
     account_created = models.DateTimeField(default=datetime.now)
+    userid = models.CharField(max_length=300, unique=True)
     order = models.CharField(max_length=300)
-    statement = models.FileField(null=True)
+    statement = models.PositiveSmallIntegerField(choices=STATEMENT_CHOICES, null=False, blank=True, default=IS)
     comment = models.TextField()
     history = HistoricalRecords()
 
 
     def __str__(self):
         return self.account_name
+  
 
+@receiver(pre_delete, sender=Account, dispatch_uid='post_pre_delete_signal')
+def protect_posts(sender, instance, using, **kwargs):
+        if instance.balance == 0: 
+            pass
+        else:  # Any other status types I add later will also be protected
+            raise ProtectedError('Account Still Has a Balance')  
 
 class Journal (models.Model):
     Pending = 1
@@ -90,7 +114,7 @@ class Journal (models.Model):
         (Rejected, 'Rejected'),
     )
     #user = models.ForeignKey(User, related_name='User', null=True, on_delete=models.CASCADE)
-    account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     Journal_name = models.CharField(max_length=300, unique=True)
     Journal_number = models.PositiveIntegerField(unique=True)
     Journal_description = models.TextField(null=True, blank=True)
@@ -119,7 +143,7 @@ class AdjustingJournalEntry (models.Model):
         (Accepted, 'Accepted'),
         (Rejected, 'Rejected'),
     )
-    account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     Adjusted_journal_name = models.CharField(max_length=300, unique=True)
     Adjusted_journal_number = models.PositiveIntegerField(unique=True)
     Adjusted_journal_description = models.TextField(null=True, blank=True)

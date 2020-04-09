@@ -1,5 +1,5 @@
-from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile, Journal, AdjustingJournalEntry
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from .models import Profile, Journal, AdjustingJournalEntry, Account
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
@@ -10,11 +10,10 @@ from django.urls import reverse_lazy
 from django.urls import reverse 
 import re 
 
-
 def homepage(request):
     return render(request = request,
-                template_name="accounts/home.html",)
-                
+                template_name="accounts/home.html")
+
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -99,24 +98,30 @@ def login_request(request):
                     template_name = "accounts/login.html",
                     context={"form":form})
 
+def view_account(request):
+    queryset = Account.objects.all() # list of objects
+    context = {
+        "object_list": queryset
+    }    
+    return render(request, 'accounts/account_list.html', context)
+
+
+def view_accountinfo(request, id):
+    obj = get_object_or_404(Account, id=id)
+    context = {
+        "object": obj
+    }
+    return render(request, "accounts/accountinfo.html", context)    
+
 def profile(request):
-    return render(request = request,
-                    template_name = "accounts/profile.html")
-                    #context={"form":form})
+    return render(request = request, template_name = "accounts/profile.html")  
 
 def help(request):
-    return render(request = request, template_name = "accounts/help.html") 
+    return render(request = request, template_name = "accounts/help.html")   
 
-def view_account(request):
-    args = {'user': request.user}
-    return render(request, 'accounts/accountinfo.html', args)
 
 def ledger(request):
-    model = Journal
-    query_set = Journal.objects.all()
-    return render(request = request,
-                  template_name = "accounts/ledger.html",
-                  context = {"journals": query_set})
+    return render(request = request, template_name = "accounts/ledger.html")
 
 def journals(request):
     if request.method == 'POST': 
@@ -162,7 +167,8 @@ def manageJournals (request):
                 obj.status = 2
                 messages.info(request, "Saved!")
             if status_cleaned=="Rejected":
-                comment_name=str(request.POST.get("status"))
+                comment_name = str(journalID)
+                comment_name = "Rejected"+comment_name
                 comment = request.POST[comment_name]
                 if comment != "":
                     obj.reason_for_rejection = comment
@@ -184,6 +190,7 @@ def manageJournals (request):
                         context={#"form":form,
                         "journal_list":journal_list
                         })
+
 def journal_view (request,id):
     journal = Journal.objects.get(Journal_number=id)
     print(journal)
@@ -211,6 +218,6 @@ def adjusting_journals(request):
                 form = AdjustingJournalForm() 
 
     else:
-        form = AdjustingJournalForm() 
+        form = AdjustingJournalForm()
     context = {'form': form}
     return render(request, 'accounts/adjusting_journals.html', context)
