@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Journal, AdjustingJournalEntry
-
+from .models import Journal, AdjustingJournalEntry, UserAccount, Journal, Statements
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -42,6 +41,7 @@ class JournalForm(forms.ModelForm):
             'journal_balance',
             'source_document'
         ]
+    
 
 class AdjustingJournalForm(forms.ModelForm):
     class Meta:
@@ -54,4 +54,19 @@ class AdjustingJournalForm(forms.ModelForm):
             'Adjusted_journal_debit',
             'Adjusted_journal_credit',
             'Adjusted_source_document'
+        ]
+class UserAccountForm(forms.ModelForm):
+    class Meta:
+        model = UserAccount
+        fields = [
+            'account_name',
+            'debit',
+            'credit',
+        ]
+class StatementsForm(forms.ModelForm):
+    class Meta:
+        model = Statements
+        fields = [
+            'Total_debit',
+            'Total_Credit',
         ]

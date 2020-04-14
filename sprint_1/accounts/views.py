@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile, Journal, AdjustingJournalEntry
+from .models import Profile, Journal, AdjustingJournalEntry, Journal, UserAccount, Statements
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm, JournalForm, AdjustingJournalForm
+from .forms import NewUserForm, EmailForm, JournalForm, AdjustingJournalForm, UserAccountForm, StatementsForm
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.urls import reverse 
@@ -119,6 +119,7 @@ def ledger(request):
                   context = {"journals": query_set})
 
 def journals(request):
+
     if request.method == 'POST': 
         form = JournalForm(request.POST or None, request.FILES)
         if form.is_valid():
@@ -139,7 +140,51 @@ def journals(request):
     else:
         form = JournalForm() 
     context = {'form': form}
+
+    useraccounts = UserAccount.objects.all()
+    journals = Journal.objects.all()
+    allstatements = Statements.objects.all()
+    for useraccount in useraccounts:
+        Accdebit = 0
+        Acccredit = 0
+        totaldebit = 0
+        totalcredit = 0
+        for journal in journals:
+            if journal.status == 2:
+                if useraccount.account_name == journal.account.account_name:
+                    Acccredit = Acccredit + journal.journal_credit
+                if useraccount.account_name == journal.account.account_name:
+                    Accdebit = Accdebit + journal.journal_debit
+        useraccount.credit = Acccredit 
+        useraccount.debit = Accdebit
+        useraccount.save()
+    for useraccount in useraccounts:
+        totaldebit = totaldebit + useraccount.debit
+        totalcredit = totalcredit + useraccount.credit
+    for statements in allstatements:
+        statements.Total_debit = totaldebit
+        statements.Total_Credit = totalcredit
+        statements.save()
     return render(request, 'accounts/journals.html', context)
+
+
+def generate_statements (request):
+    Statementsform = StatementsForm()
+    Userform = UserAccountForm()
+    useraccounts = UserAccount.objects.all()
+    allstatements = Statements.objects.all()
+
+    args = {'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
+    return render(request, 'accounts/generate_statements.html', args)
+
+def balance_sheet (request):
+    Statementsform = StatementsForm()
+    Userform = UserAccountForm()
+    useraccounts = UserAccount.objects.all()
+    allstatements = Statements.objects.all()
+
+    args = {'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
+    return render(request, 'accounts/balance_sheet.html', args)
 
 def manageJournals (request):
     if request.method == 'POST':
@@ -149,7 +194,8 @@ def manageJournals (request):
         number = int(a_string)
         status_list = re.findall(r'\D+',status)
         status_cleaned = "".join(status_list)
-        journalSet = Journal.objects.filter(Journal_number=number)           
+        journalSet = Journal.objects.filter(Journal_number=number)      
+
         if journalSet.exists():
             journalID = journalSet[0].id
             obj = Journal.objects.get(id=journalID)
