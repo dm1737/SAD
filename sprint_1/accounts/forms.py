@@ -1,7 +1,10 @@
 from django import forms
+from django.forms import BaseFormSet, formset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Journal
+from decimal import *
+
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -36,10 +39,27 @@ class JournalForm(forms.ModelForm):
             'Journal_name',
             'Journal_number',
             'Journal_description',
-            'initial_journal_balance',
+            #'initial_journal_balance',
             'journal_debit',
             'journal_credit',
-            'journal_balance',
-            'source_document'
+            #'journal_balance',
+            #'source_document'
         ]
+
+class JournalFormset(BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+        balance = 0
+        for form in self.forms:
+            debit = form.cleaned_data.get('journal_debit')
+            credit = form.cleaned_data.get('journal_credit')
+            balance += debit
+            balance -= credit
+        if balance != 0:
+            raise forms.ValidationError('Journal Entries must have a balance of 0')
+        
+            
+
+        
 
