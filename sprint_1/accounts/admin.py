@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from simple_history.admin import SimpleHistoryAdmin
 from .models import UserAccount
-from .models import Journal, AdjustingJournalEntry
+from .models import Journal, AdjustingJournalEntry, Statements
 
 
 class AccountAdmin (SimpleHistoryAdmin):
@@ -68,3 +68,4 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(UserAccount, AccountAdmin)
 admin.site.register(Journal, JournalAdmin)
 admin.site.register(AdjustingJournalEntry, AdjustingJournalAdmin)
+admin.site.register(Statements)

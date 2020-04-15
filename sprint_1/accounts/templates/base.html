@@ -35,7 +35,19 @@
         <a href="/adjusting_journals" class="navbar-left"> Adjusting Journal </a>
         <a href="/manage_journals" class="navbar-left"> Manage/View Journals</a>
         <a href="/help" class="navbar-left"> Help </a>
-        
+        <ul class="nav navbar-nav">
+
+         <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generate Statements<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/generate_statements">Trial Balance</a></li>
+                  <li><a href="/balance_sheet">Balance Sheet</a></li>
+                  <li><a href="#">Income Statement</a></li>
+                  <li><a href="#">Retained Earnings Statement</a></li>
+                  
+                </ul>
+              </li>
+        </ul> 
         <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
         <a href="/profile" class="navbar-right">{{user.username|title}}</a>
        {% if user.profile.image %}

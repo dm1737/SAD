@@ -4,7 +4,6 @@ from django.conf.urls import url
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-#from .views import ManageJournals
 
 app_name = 'accounts'
 
@@ -23,4 +22,7 @@ urlpatterns = [
     path("journal_view/", views.journal_view, name="journal_view"),
     path("journal_view/<int:id>",views.journal_view, name="journal_view"),
     path("manage_journals/", views.manageJournals, name="managejournals"),
+    path("generate_statements/", views.generate_statements, name="generate_statements"),
+    path("balance_sheet/", views.balance_sheet, name="balance_sheet"),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

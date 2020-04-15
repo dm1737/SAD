@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h1>Balance Sheet</h1>
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Assets</th>
+            <th scope="col">Account Balance</th>
+        </tr>
+    </thead>
+    <tbody id = "myTable">
+        {% for useraccount in useraccounts %}
+        {% if useraccount.account_number < 200  %}
+        <tr> 
+            <td>{{ useraccount.account_name }}</td>
+            <td>{{ useraccount.debit }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+    </tbody>
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+
+</div>
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Total Assets</th>
+        </tr>
+    </thead>
+    <tbody id = "myTable">
+        {% for statements in allstatements %}
+        <tr> 
+            <td>{{ statements.Total_debit }}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+
+</div>
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Liabilities</th>
+            <th scope="col">Account Balance</th>
+        </tr>
+    </thead>
+    <tbody id = "myTable">
+        {% for useraccount in useraccounts %}
+        {% if useraccount.account_number < 300  %}
+        {% if useraccount.account_number > 200  %}
+        <tr> 
+            <td>{{ useraccount.account_name }}</td>
+            <td>{{ useraccount.credit }}</td>
+        </tr>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+    </tbody>
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+
+</div>
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Owner's Equity</th>
+            <th scope="col">Account Balance</th>
+        </tr>
+    </thead>
+    <tbody id = "myTable">
+        {% for useraccount in useraccounts %}
+        {% if useraccount.account_number > 300  %}
+        <tr> 
+            <td>{{ useraccount.account_name }}</td>
+            <td>{{ useraccount.credit }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+    </tbody>
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+
+</div>
+
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Total Liabilities & Owners Equity</th>
+        </tr>
+    </thead>
+    <tbody id = "myTable">
+        {% for statements in allstatements %}
+        <tr> 
+            <td>{{ statements.Total_Credit }}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+
+</div>
+
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">Balance Check</th>
+        </tr>
+    </thead>
+    <tbody id = "myTable">
+        {% for statements in allstatements %}
+        {% if statements.Total_Credit == statements.Total_debit  %}
+
+        <tr> 
+            <td>Balance Check Suceeded; Difference = 0</td>
+        </tr>
+        {% else %}
+        <tr> 
+            <td>Balance Check Failed; Difference > 0</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+    </tbody>
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+
+</div>
+
+{% endblock %}

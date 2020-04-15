@@ -56,7 +56,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-
+class Statements (models.Model):
+	Total_debit = models.DecimalField(decimal_places=2, max_digits=10)
+	Total_Credit = models.DecimalField(decimal_places=2, max_digits=10)
 
 class UserAccount (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -75,7 +77,9 @@ class UserAccount (models.Model):
     comment = models.TextField()
     history = HistoricalRecords()
 
-
+    def get_absolute_url(self):
+        return reverse('useraccount:detail', args=[self.account_number])
+    
     def __str__(self):
         return self.account_name
 
@@ -109,7 +113,7 @@ class Journal (models.Model):
     def __str__(self):
         return self.Journal_name
 
-
+        
 class AdjustingJournalEntry (models.Model):
     Pending = 1
     Accepted = 2
