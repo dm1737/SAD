@@ -16,7 +16,7 @@
         {% if useraccount.account_number < 200  %}
         <tr> 
             <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.debit }}</td>
+            <td>{{ useraccount.balance }}</td>
         </tr>
         {% endif %}
         {% endfor %}
@@ -81,7 +81,7 @@ function myFunction() {
         {% if useraccount.account_number > 200  %}
         <tr> 
             <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.credit }}</td>
+            <td>{{ useraccount.balance }}</td>
         </tr>
         {% endif %}
         {% endif %}
@@ -116,7 +116,7 @@ function myFunction() {
         {% if useraccount.account_number > 300  %}
         <tr> 
             <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.credit }}</td>
+            <td>{{ useraccount.balance }}</td>
         </tr>
         {% endif %}
         {% endfor %}
