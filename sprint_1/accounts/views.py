@@ -150,7 +150,31 @@ def journals(request):
     context = {
         'journal_form':journal_formset
     }
-
+    useraccounts = UserAccount.objects.all()
+    journals = Journal.objects.all()
+    allstatements = Statements.objects.all()
+    for useraccount in useraccounts:
+        Accdebit = 0
+        Acccredit = 0
+        totaldebit = 0
+        totalcredit = 0
+        for journal in journals:
+            if journal.status == 2:
+                if useraccount.account_name == journal.account.account_name:
+                    Acccredit = Acccredit + journal.journal_credit
+                if useraccount.account_name == journal.account.account_name:
+                    Accdebit = Accdebit + journal.journal_debit
+        useraccount.credit = Acccredit 
+        useraccount.debit = Accdebit
+        useraccount.balance = Accdebit + Acccredit
+        useraccount.save()
+    for useraccount in useraccounts:
+        totaldebit = totaldebit + useraccount.debit
+        totalcredit = totalcredit + useraccount.credit
+    for statements in allstatements:
+        statements.Total_debit = totaldebit
+        statements.Total_Credit = totalcredit
+        statements.save()
     return render(request, template_name, context)
 '''
 def journals(request):
@@ -174,31 +198,6 @@ def journals(request):
     else:
         form = JournalForm() 
     context = {'form': form}
-
-    useraccounts = UserAccount.objects.all()
-    journals = Journal.objects.all()
-    allstatements = Statements.objects.all()
-    for useraccount in useraccounts:
-        Accdebit = 0
-        Acccredit = 0
-        totaldebit = 0
-        totalcredit = 0
-        for journal in journals:
-            if journal.status == 2:
-                if useraccount.account_name == journal.account.account_name:
-                    Acccredit = Acccredit + journal.journal_credit
-                if useraccount.account_name == journal.account.account_name:
-                    Accdebit = Accdebit + journal.journal_debit
-        useraccount.credit = Acccredit 
-        useraccount.debit = Accdebit
-        useraccount.save()
-    for useraccount in useraccounts:
-        totaldebit = totaldebit + useraccount.debit
-        totalcredit = totalcredit + useraccount.credit
-    for statements in allstatements:
-        statements.Total_debit = totaldebit
-        statements.Total_Credit = totalcredit
-        statements.save()
     return render(request, 'accounts/journals.html', context)
 '''
 
