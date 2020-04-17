@@ -24,5 +24,8 @@ urlpatterns = [
     path("manage_journals/", views.manageJournals, name="managejournals"),
     path("generate_statements/", views.generate_statements, name="generate_statements"),
     path("balance_sheet/", views.balance_sheet, name="balance_sheet"),
+    path("income_statement/", views.income_statement, name="income_statement"),
+
+
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
