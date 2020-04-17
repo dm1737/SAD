@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
     {% block head %}
 
@@ -116,4 +117,124 @@
     </style>
 
 
+=======
+{% extends 'base.html' %}
+    {% block head %}
+
+    {% load static %}
+    <link href="{% static "tinymce/css/prism.css" %}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <a href="/" class="navbar-left"><img src="/static/images/logo.svg"></a>
+        {% include 'accounts/includes/messaging.html' %} 
+        <a href="/" class="navbar-left"> Home </a>
+        <a href="/accounts" class="navbar-left"> Accounts </a>
+        <a href="/ledger" class="navbar-left"> Ledger </a>
+        <a href="/journals" class="navbar-left"> Journal </a>
+        <a href="/adjusting_journals" class="navbar-left"> Adjusting Journal </a>
+        <a href="/manage_journals" class="navbar-left"> Manage/View Journals</a>
+        <a href="/help" class="navbar-left"> Help </a>
+        <ul class="nav navbar-nav">
+
+         <div class="dropdown">
+                <a href="#" class="navbar-left" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generate Statements<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/generate_statements">Trial Balance</a></li>
+                  <li><a href="/balance_sheet">Balance Sheet</a></li>
+                  <li><a href="/income_statement">Income Statement</a></li>
+                  <li><a href="#">Retained Earnings Statement</a></li>
+                  
+                </ul>
+              </div>
+        </ul> 
+        <a href="/logout" class="navbar-right"><span class="glyphicon glyphicon-log-in"></span> Logout </a>
+        <a href="/profile" class="navbar-right">{{user.username|title}}</a>
+        {% if user.profile.image %}
+         <a href="/profile" class="navbar-right"><img src="{{user.profile.image.url}}" width="35px"> </a>
+          {% else %}
+           <a href="/profile" class="navbar-right"><img src="/static/images/user2.svg"></a>
+             
+          {% endif %}   
+    </div>         
+    </nav>
+
+  <title>Accounting System</title>
+  <style>
+    
+    .navbar {
+      margin-bottom: 20;
+      border-radius: 0;
+      padding-right:15px;
+      padding-left:0;
+    }
+    
+    .navbar-left {
+      padding-right:15px;
+      font-size: 15px !important;
+
+    }
+    .navbar-right{
+      padding-right:15px;
+      font-size: 15px !important;
+    }
+  
+  </style>
+</head>
+
+{% endblock %}
+
+{% block body %}
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <center><h3 class="panel-title">Add an Adjusting Journal Entry: </h3></center>
+                    </div>
+                      <div class="panel-body">
+                        <fieldset>
+                        {% include 'accounts/includes/messaging.html' %}                          
+                        <form enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }} 
+                                        
+                                <div class="panel-button">
+                                    <button style="background-color:#555; color:white; text-align:center; padding: 2px;" class="btn btn-primary btn-lg" type="submit">
+                                    <span class="button-text">Save</span> </button>  
+                                    <button style="background-color:white; color:#555; text-align:center; padding: 2px;" class="btn btn-primary btn-lg" type="reset">
+                                    <span class="button-text">Reset</span> </button>                            
+                                </div>
+                            </form>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+    .panel-button{
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 15px; 
+    }
+
+    .button-text{
+        text-align: center;
+        padding: 10px;
+
+    }
+
+    </style>
+
+
+>>>>>>> 46394645150eb39ce119f55bbfe16c562db951c4
 {% endblock %}
