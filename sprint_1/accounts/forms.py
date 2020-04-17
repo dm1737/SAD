@@ -43,7 +43,7 @@ class JournalForm(forms.ModelForm):
             'journal_debit',
             'journal_credit',
             #'journal_balance',
-            #'source_document'
+            'source_document'
         ]
 
 class JournalFormset(BaseFormSet):
@@ -86,3 +86,4 @@ class StatementsForm(forms.ModelForm):
             'Total_debit',
             'Total_Credit',
         ]
+

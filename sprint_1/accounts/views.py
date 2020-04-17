@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm, JournalForm, JournalFormset, AdjustingJournalForm, UserAccountForm, StatementsForm
+from .forms import NewUserForm, EmailForm, JournalForm, JournalFormset, JournalFormset2, AdjustingJournalForm, UserAccountForm, StatementsForm
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.urls import reverse 
@@ -273,24 +273,36 @@ def journal_view (request,id):
                     })
 
 def adjusting_journals(request):
-    if request.method == 'POST': 
-        form = AdjustingJournalForm(request.POST or None, request.FILES)
-        if form.is_valid():
-            current_user = request.user
-            if current_user.profile.role == 2:                
-                form.save()
-                Journalset = Journal.objects.filter(Adjusted_journal_number=form.cleaned_data.get('Journal_number'))                           
-                if Journalset.exists():
-                    JournalID = Journalset[0].id
-                    obj = Journal.objects.get(id=JournalID)
-                    obj.status = 2
-                    obj.save()
-                form = AdjustingJournalForm()
-            else:                
-                form.save()
-                form = AdjustingJournalForm() 
+ #Create a formset out of the JournalForm
+    Journal_FormSet = formset_factory(JournalForm, formset = JournalFormset, extra=2)
+    template_name = "accounts/adjusting_journals.html"
 
-    else:
-        form = AdjustingJournalForm() 
-    context = {'form': form}
-    return render(request, 'accounts/adjusting_journals.html', context)
+    if request.method == 'GET':
+        journal_formset = Journal_FormSet(request.GET or None)
+    elif request.method == 'POST':
+        journal_formset = Journal_FormSet(request.POST)
+
+         #checking if the form is valid
+        if journal_formset.is_valid():
+
+            current_user = request.user
+
+            #To save we have to loop through the formset
+            for j in journal_formset:
+                #saving journal models
+                if current_user.profile.role == 2:                
+                    j.save()
+                    Journalset = Journal.objects.filter(Journal_number=j.cleaned_data.get('Journal_number'))
+                    if Journalset.exists():
+                        JournalID = Journalset[0].id
+                        obj = Journal.objects.get(id=JournalID)
+                        obj.status = 2
+                        obj.save()
+                else: 
+                    j.save()
+                    
+    context = {
+        'journal_form':journal_formset
+    }
+
+    return render(request, template_name, context)

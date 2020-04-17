@@ -33,7 +33,7 @@
         <a href="/ledger" class="navbar-left"> Ledger </a>
         <a href="/journals" class="navbar-left"> Journal </a>
         <a href="/adjusting_journals" class="navbar-left"> Adjusting Journal </a>
-        <a href="/manage_journals" class="navbar-left"> Manage/View Journals</a>
+        <a href="/manage_journals" class="navbar-left"> Manage Journals</a>
         <a href="/help" class="navbar-left"> Help </a>
         <ul class="nav navbar-nav">
 
@@ -108,9 +108,27 @@
     <div class="row">
       {% if user.is_authenticated %}
         <div class="text-center" style="float: none; margin: 0 auto;"><h1> Accounting Plus </h1></div>
-        <div class="text-center" style="float: none; margin-bottom: 40px;"><p> Welcome to your accounting homepage! </p></div>
+        <div class="text-center" style="float: none; margin-bottom: 25px;"><p> Welcome to your accounting homepage! </p></div>
+        <div class="text-center" style="float: none; margin-bottom: 40px;">
+        <button onclick="myFunction()" class="text-center" style="float: none; margin-bottom: 25px;">Hide/Display Messages</button>
+        <div id="myDIV">You have journal entries pending. Please visit the Manage Journals page to Accept or Reject your pending entries.</div>
+          <script>
+          function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            } else {
+              x.style.display = "none";
+            }
+          }
+          </script>
+          </div>
+
+
         <div class="text-center" style="float: none; margin: 20px;"><h3><hr>Dashboards<hr></h3></div>      
         <div class="row">
+          <div class="text-center" style="float: none; margin: 20px;"><h3><hr>Financial Ratios<hr></h3></div>      
+          <div class="row">
           
       </div>
     </div>

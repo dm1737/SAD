@@ -113,30 +113,4 @@ class Journal (models.Model):
     def __str__(self):
         return self.Journal_name
 
-        
-class AdjustingJournalEntry (models.Model):
-    Pending = 1
-    Accepted = 2
-    Rejected = 3
-    STATUS_CHOICES = (
-        (Pending, 'Pending'),
-        (Accepted, 'Accepted'),
-        (Rejected, 'Rejected'),
-    )
-    account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
-    Adjusted_journal_name = models.CharField(max_length=300, unique=True)
-    Adjusted_journal_number = models.PositiveIntegerField(unique=True)
-    Adjusted_journal_description = models.TextField(null=True, blank=True)
-    Adjusted_journal_debit = models.DecimalField(decimal_places=2, max_digits=10)
-    Adjusted_journal_credit = models.DecimalField(decimal_places=2, max_digits=10)
-    Adjusted_source_document = models.FileField(upload_to='source_docs', null=True, blank=True)
-    Adjusted_status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=False, blank=True, default=Pending)
-    Adjusted_date = models.DateField(auto_now_add = True)
-    Adjusted_reason_for_rejection = models.CharField(max_length=1000, blank=True, null=False, default="")
-    Adjusted_history = HistoricalRecords()
-
-    def get_absolute_url(self):
-        return reverse('journal:detail', args=[self.Adjusted_journal_number])
-    def __str__(self):
-        return self.Adjusted_journal_name
 
