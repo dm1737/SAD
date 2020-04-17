@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile, Journal, AdjustingJournalEntry, Journal, UserAccount, Statements
+from .models import Profile, Journal, Journal, UserAccount, Statements
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
 from django.contrib import messages
-from .forms import NewUserForm, EmailForm, JournalForm, JournalFormset, AdjustingJournalForm, UserAccountForm, StatementsForm
+from .forms import NewUserForm, EmailForm, JournalForm, JournalFormset, UserAccountForm, StatementsForm
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.urls import reverse 
