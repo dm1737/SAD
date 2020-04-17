@@ -4,8 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Journal
 from decimal import *
+from .models import Journal, UserAccount, Journal, Statements
 
-from .models import Journal, AdjustingJournalEntry, UserAccount, Journal, Statements
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -59,18 +59,6 @@ class JournalFormset(BaseFormSet):
         if balance != 0:
             raise forms.ValidationError('Journal Entries must have a balance of 0')
 
-class AdjustingJournalForm(forms.ModelForm):
-    class Meta:
-        model = AdjustingJournalEntry
-        fields = [
-            'account',
-            'Adjusted_journal_name',
-            'Adjusted_journal_number',
-            'Adjusted_journal_description',
-            'Adjusted_journal_debit',
-            'Adjusted_journal_credit',
-            'Adjusted_source_document'
-        ]
 class UserAccountForm(forms.ModelForm):
     class Meta:
         model = UserAccount
