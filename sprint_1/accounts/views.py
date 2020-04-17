@@ -158,6 +158,8 @@ def journals(request):
         Acccredit = 0
         totaldebit = 0
         totalcredit = 0
+        Revenues = 0
+        Expenses = 0
         for journal in journals:
             if journal.status == 2:
                 if useraccount.account_name == journal.account.account_name:
@@ -175,6 +177,19 @@ def journals(request):
         statements.Total_debit = totaldebit
         statements.Total_Credit = totalcredit
         statements.save()
+    for journal in journals:
+            if journal.Type == 1:
+                Expenses = Expenses + journal.journal_credit + journal.journal_debit
+            if journal.Type == 2:
+                Revenues = Revenues + journal.journal_credit + journal.journal_debit
+            else:
+                pass
+    for statements in allstatements:
+        statements.Total_Expense = Expenses
+        statements.Total_Revenue = Revenues
+        statements.Net_Profit = Revenues - Expenses
+        statements.save()
+
     return render(request, template_name, context)
 '''
 def journals(request):
@@ -219,6 +234,17 @@ def balance_sheet (request):
     args = {'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
     return render(request, 'accounts/balance_sheet.html', args)
 
+def income_statement (request):
+    Journalform = JournalForm() 
+    journals = Journal.objects.all()
+    Statementsform = StatementsForm()
+    Userform = UserAccountForm()
+    useraccounts = UserAccount.objects.all()
+    allstatements = Statements.objects.all()
+
+    args = {'Journalform': Journalform, 'journals': journals, 'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
+    return render(request, 'accounts/income_statement.html', args)
+    
 def manageJournals (request):
     if request.method == 'POST':
         status = request.POST['status']
