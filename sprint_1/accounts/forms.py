@@ -98,6 +98,11 @@ class JournalForm(forms.ModelForm):
 					'class': 'form-control'
 					}
 				),
+                'Type': forms.Select(
+				attrs={
+					'class': 'form-control'
+					}                
+				),
              
 			}
 
