@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Journal
 from decimal import *
 from .models import Journal, UserAccount, Journal, Statements
+from django.utils.translation import gettext_lazy as _
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -46,6 +47,59 @@ class JournalForm(forms.ModelForm):
             #'journal_balance',
             #'source_document'
         ]
+        labels = {
+            'text': _('Writer'),
+        }
+        widgets = {
+            
+            'account': forms.Select(
+				attrs={
+					'class': 'form-control'
+					}                
+				),
+            'Journal_name': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+			
+            'Journal_number': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'Journal_description': forms.Textarea(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'initial_journal_balance': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'journal_debit': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'journal_credit': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'journal_balance': forms.TextInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+            'source_document': forms.ClearableFileInput(
+				attrs={
+					'class': 'form-control'
+					}
+				),
+             
+			}
 
 class JournalFormset(BaseFormSet):
     def clean(self):
