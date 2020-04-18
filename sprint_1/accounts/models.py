@@ -51,7 +51,7 @@ def is_staff(self):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
+        
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
@@ -59,6 +59,9 @@ def save_user_profile(sender, instance, **kwargs):
 class Statements (models.Model):
 	Total_debit = models.DecimalField(decimal_places=2, max_digits=10)
 	Total_Credit = models.DecimalField(decimal_places=2, max_digits=10)
+	Total_Expense = models.DecimalField(decimal_places=2, max_digits=10)
+	Total_Revenue = models.DecimalField(decimal_places=2, max_digits=10)
+	Net_Profit = models.DecimalField(decimal_places=2, max_digits=10)
 
 class UserAccount (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -88,10 +91,18 @@ class Journal (models.Model):
     Pending = 1
     Accepted = 2
     Rejected = 3
+    Expense = 1
+    Revenue = 2
+    NA = 3
     STATUS_CHOICES = (
         (Pending, 'Pending'),
         (Accepted, 'Accepted'),
         (Rejected, 'Rejected'),
+    )
+    TYPE_CHOICES = (
+        (Expense, 'Expense'),
+        (Revenue, 'Revenue'),
+        (NA, 'NA'),  
     )
     #user = models.ForeignKey(User, related_name='User', null=True, on_delete=models.CASCADE)
     account = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
@@ -107,6 +118,7 @@ class Journal (models.Model):
     date = models.DateField(auto_now_add = True)
     reason_for_rejection = models.CharField(max_length=1000, blank=True, null=False, default="")
     history = HistoricalRecords()
+    Type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES, null=False, blank=True, default=NA)
 
     def get_absolute_url(self):
         return reverse('journal:detail', args=[self.Journal_number])
@@ -114,3 +126,4 @@ class Journal (models.Model):
         return self.Journal_name
 
 
+        
