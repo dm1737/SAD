@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+
+<h1>Retained Earnings Statement</h1>
+
+
+<div style="text-align: center; margin: 10px;">   
+<table align="center">
+    <thead>
+        <tr>
+            <th scope="col">R/E Beginning Balance</th>
+        </tr>
+
+        {% for statements in allstatements %}
+        <tr>
+            <td>{{statements.Beginning_Balance}}</th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th scope="col">Net-Income/Loss</th>
+        </tr>
+
+        {% for statements in allstatements %}
+        <tr>
+            <td>{{statements.Net_Profit}}</th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th scope="col">Dividends</th>
+        </tr>
+
+        {% for statements in allstatements %}
+        <tr>
+            <td>{{statements.Divedends}}</th>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th scope="col">R/E End Balance</th>
+        </tr>
+
+        {% for statements in allstatements %}
+        <tr>
+            <td>{{statements.Ending_Balance}}</th>
+        </tr>
+        {% endfor %}
+    </thead>
+ 
+</table>
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+}
+</script>
+<a href="#" onclick="window.print();return false;" title="Click to print this page">Print this page</a>
+
+</div>
+
+
+{% endblock %}

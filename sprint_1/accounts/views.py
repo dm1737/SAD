@@ -188,6 +188,7 @@ def journals(request):
         statements.Total_Expense = Expenses
         statements.Total_Revenue = Revenues
         statements.Net_Profit = Revenues - Expenses
+        statements.Ending_Balance = statements.Beginning_Balance + statements.Net_Profit - statements.Divedends
         statements.save()
 
     return render(request, template_name, context)
@@ -233,6 +234,13 @@ def balance_sheet (request):
 
     args = {'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
     return render(request, 'accounts/balance_sheet.html', args)
+
+def retained_earnings (request):
+    Statementsform = StatementsForm()
+    allstatements = Statements.objects.all()
+
+    args = {'Statementsform': Statementsform, 'allstatements': allstatements }     
+    return render(request, 'accounts/retained_earnings.html', args)
 
 def income_statement (request):
     Journalform = JournalForm() 
