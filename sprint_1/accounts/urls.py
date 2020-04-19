@@ -25,7 +25,7 @@ urlpatterns = [
     path("generate_statements/", views.generate_statements, name="generate_statements"),
     path("balance_sheet/", views.balance_sheet, name="balance_sheet"),
     path("income_statement/", views.income_statement, name="income_statement"),
-
+    path("retained_earnings/", views.retained_earnings, name="retained_earnings"),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

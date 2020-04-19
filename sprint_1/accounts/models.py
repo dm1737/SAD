@@ -62,6 +62,9 @@ class Statements (models.Model):
 	Total_Expense = models.DecimalField(decimal_places=2, max_digits=10)
 	Total_Revenue = models.DecimalField(decimal_places=2, max_digits=10)
 	Net_Profit = models.DecimalField(decimal_places=2, max_digits=10)
+	Divedends = models.DecimalField(decimal_places=2, max_digits=10)
+	Beginning_Balance = models.DecimalField(decimal_places=2, max_digits=10)
+	Ending_Balance = models.DecimalField(decimal_places=2, max_digits=10)
 
 class UserAccount (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
