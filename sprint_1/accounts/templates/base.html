@@ -135,8 +135,10 @@
         </div>
         {% for j in journals%}
         {% if j.status == 1%}
-        <div id="myDIV">You have journal entries pending. Please visit the Manage Journals page to Accept or Reject your
+        {% if user.profile.role != 1 %}
+        <div id="myDIV">Welcome, you have journal entries pending. Please visit the Manage Journals page to Accept or Reject your
           pending entries.</div>
+        {% endif %}
         {% endif %}
         {% endfor %}
         <script>
