@@ -136,7 +136,8 @@
         {% for j in journals%}
         {% if j.status == 1%}
         {% if user.profile.role != 1 %}
-        <div id="myDIV">Welcome, you have journal entries pending. Please visit the Manage Journals page to Accept or Reject your
+        <div id="myDIV">Welcome, you have journal entries pending. Please visit the Manage Journals page to Accept or
+          Reject your
           pending entries.</div>
         {% endif %}
         {% endif %}
@@ -152,39 +153,137 @@
           }
         </script>
       </div>
-      <div class="text-center" style="float: none; margin: 20px;">
-        <h3>
-          <hr>Dashboards
-          <hr>
-        </h3>
-      </div>
-      <div class="row">
-        <div class="text-center" style="float: none; margin: 20px;">
-          <h3>
-            <hr>Financial Ratios
-            <hr>
-          </h3>
-        </div>
+
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          * {
+            box-sizing: border-box;
+          }
+
+          /* Create three equal columns that floats next to each other */
+          .column {
+            float: left;
+            width: 33.33%;
+            padding: 10px;
+            height: 200px;
+            /* Should be removed. Only for demonstration */
+          }
+
+          /* Clear floats after the columns */
+          .row:after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+        </style>
+      </head>
+
+      <body>
+
+        <h2>
+          <hr>Dashboards</hr>
+        </h2>
+        <table align="center">
+          <thead>
+            <tr>
+              <th>
+                <div id="piechart"></div>
+              </th>
+              <th>
+                <div id="piechart2"></div>
+              </th>
+            </tr>
+          </thead>
+        </table>
+
+
         <div class="row">
-
+          <div class="column" style="background-color:#aaa;">
+            <h2>Balance</h2>
+            <p class="text-center">Add Number</pclass="text-center">
+          </div>
+          <div class="column" style="background-color:#bbb;">
+            <h2>Total Assets</h2>
+            <p class="text-center">Add Number</pclass="text-center">
+          </div>
+          <div class="column" style="background-color:#ccc;">
+            <h2>Total Liabilities</h2>
+            <p class="text-center">Add Number</p>
+          </div>
         </div>
+    </div>
+  </div>
+  </div>
+
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 8],
+        ['Eat', 2],
+        ['TV', 4],
+        ['Gym', 2],
+        ['Sleep', 8]
+      ]);
+
+      // Optional; add a title and set the width and height of the chart
+      var options = { 'title': 'Total Assets', 'width': 550, 'height': 400 };
+
+      // Display the chart inside the <div> element with id="piechart"
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 8],
+        ['Eat', 2],
+        ['TV', 4],
+        ['Gym', 2],
+        ['Sleep', 8]
+      ]);
+
+      // Optional; add a title and set the width and height of the chart
+      var options = { 'title': 'Total Liabilities', 'width': 550, 'height': 400 };
+
+      // Display the chart inside the <div> element with id="piechart"
+      var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+      chart.draw(data, options);
+    }
+  </script>
+
+  {% else %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="text-center" style="float: none; margin-top: 20px;"><a><img src="/static/images/error.svg"></a></div>
+      <div class="text-center" style="float: none; margin: 20px;">
+        <p> Please log in to go to your homepage. </p>
+      </div>
+      <div class="text-center" style="float: none; margin: 0 auto;">
+        <p> If you don't have an account, please register. </p>
       </div>
     </div>
-
-    {% else %}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="text-center" style="float: none; margin-top: 20px;"><a><img src="/static/images/error.svg"></a>
-        </div>
-        <div class="text-center" style="float: none; margin: 20px;">
-          <p> Please log in to go to your homepage. </p>
-        </div>
-        <div class="text-center" style="float: none; margin: 0 auto;">
-          <p> If you don't have an account, please register. </p>
-        </div>
-      </div>
-    </div>
-    {% endif %}
+  </div>
+  {% endif %}
   </div>
   </div>
   </div>
