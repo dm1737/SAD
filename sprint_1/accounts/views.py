@@ -8,16 +8,31 @@ from .forms import NewUserForm, EmailForm, JournalForm, JournalFormset, UserAcco
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.urls import reverse 
-from django.forms import formset_factory
+from django.forms import formset_factory 
 import re 
 
 
 def homepage(request):
     journals = Journal.objects.all()
-    
+    allstatements = Statements.objects.all()
+    useraccounts = UserAccount.objects.all()    
+    Assets = []
+    Liabilities = []
+    for objects in useraccounts:
+        if(objects.account_number <= 200):
+            if(objects.balance > 0):
+                Assets.append(objects)
+        if(objects.account_number > 200 and objects.account_number <=300):
+            if(objects.balance > 0):
+                Liabilities.append(objects)
+                
+    print(Assets)
     return render(request = request,
                 template_name="accounts/home.html",
-                context={"journals":journals})
+                context={"journals":journals, 
+                'allstatements': allstatements,
+                'Assets':Assets,
+                'Liabilities':Liabilities})
                 
 def register(request):
     if request.method == "POST":
