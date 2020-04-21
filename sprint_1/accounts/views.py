@@ -13,8 +13,11 @@ import re
 
 
 def homepage(request):
+    journals = Journal.objects.all()
+    
     return render(request = request,
-                template_name="accounts/home.html",)
+                template_name="accounts/home.html",
+                context={"journals":journals})
                 
 def register(request):
     if request.method == "POST":
