@@ -34,7 +34,7 @@
       <a href="/ledger" class="navbar-left"> Ledger </a>
       <a href="/journals" class="navbar-left"> Journal </a>
       <a href="/adjusting_journals" class="navbar-left"> Adjusting Journal </a>
-      <a href="/manage_journals" class="navbar-left"> Manage/View Journals</a>
+      <a href="/manage_journals" class="navbar-left"> Manage Journals</a>
       <a href="/help" class="navbar-left"> Help </a>
       <ul class="nav navbar-nav">
 
@@ -128,7 +128,7 @@
       </div>
       <div class="text-center" style="float: none; margin-bottom: 40px;">
         <div class="panel-button">
-          <button onclick="myFunction()" style="background-color:white; color:#555; text-align:center; padding: 2px;"
+          <button onclick="myFunction()" style="background-color:white; color:#555; text-align:center; padding: 5px;"
             class="btn btn-primary btn-lg" type="submit">
             <span class="button-text">Hide/Display
               Messages</span> </button>
@@ -136,7 +136,7 @@
         {% for j in journals%}
         {% if j.status == 1%}
         {% if user.profile.role != 1 %}
-        <div id="myDIV">Welcome, you have journal entries pending. Please visit the Manage Journals page to Accept or
+        <div id="myDIV"; style="padding: 25px;">Welcome, you have journal entries pending. Please visit the Manage Journals page to Accept or
           Reject your
           pending entries.</div>
         {% endif %}
@@ -166,7 +166,7 @@
             float: left;
             width: 33.33%;
             padding: 10px;
-            height: 200px;
+            height: 150px;
             /* Should be removed. Only for demonstration */
           }
 
@@ -204,11 +204,11 @@
             {% for statements in allstatements %}
             {% if statements.Total_Credit == statements.Total_debit  %}
 
-            <p class="text-center">Balance Check Suceeded; Difference = 0</p>
+            <h4><p class="text-center">Balance Check Suceeded; Difference = 0</p></h4>
 
             {% else %}
 
-            <p class="text-center">Balance Check Failed; Difference > 0</p>
+            <h4><p class="text-center">Balance Check Failed; Difference > 0</p></h4>
 
             {% endif %}
             {% endfor %}
@@ -216,13 +216,13 @@
           <div class="column" style="background-color:#bbb;">
             <h2>Total Assets</h2>
             {% for statements in allstatements %}
-            <p class="text-center">{{statements.Total_debit}}</p>
+            <h4><p class="text-center">{{statements.Total_debit}}</p></h4>
             {% endfor %}
           </div>
           <div class="column" style="background-color:#ccc;">
             <h2>Total Liabilities</h2>
             {% for statements in allstatements %}
-            <p class="text-center">{{ statements.Total_Credit }}</p>
+            <h4><p class="text-center">{{ statements.Total_Credit }}</p></h4>
             {% endfor %}
           </div>
         </div>
