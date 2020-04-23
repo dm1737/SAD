@@ -65,6 +65,7 @@ class Statements (models.Model):
 	Divedends = models.DecimalField(decimal_places=2, max_digits=10)
 	Beginning_Balance = models.DecimalField(decimal_places=2, max_digits=10)
 	Ending_Balance = models.DecimalField(decimal_places=2, max_digits=10)
+	Ratio = models.DecimalField(decimal_places=2, max_digits=10)
 
 class UserAccount (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

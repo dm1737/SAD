@@ -207,6 +207,7 @@ def journals(request):
         statements.Total_Revenue = Revenues
         statements.Net_Profit = Revenues - Expenses
         statements.Ending_Balance = statements.Beginning_Balance + statements.Net_Profit - statements.Divedends
+        statements.Ratio = statements.Total_debit / statements.Total_Credit
         statements.save()
 
     return render(request, template_name, context)
