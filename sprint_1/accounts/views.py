@@ -1,5 +1,5 @@
-from django.shortcuts import render, HttpResponse, redirect
-from .models import Profile, Journal, Journal, UserAccount, Statements
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from .models import Profile, Journal,  Account, Statement
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout,login,authenticate
@@ -8,17 +8,17 @@ from .forms import NewUserForm, EmailForm, JournalForm, JournalFormset, UserAcco
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.urls import reverse 
-from django.forms import formset_factory 
+from django.forms import formset_factory
 import re 
 
 
 def homepage(request):
     journals = Journal.objects.all()
-    allstatements = Statements.objects.all()
-    useraccounts = UserAccount.objects.all()    
+    allstatements = Statement.objects.all()
+    accounts = Account.objects.all()    
     Assets = []
     Liabilities = []
-    for objects in useraccounts:
+    for objects in accounts:
         if(objects.account_number <= 200):
             if(objects.balance > 0):
                 Assets.append(objects)
@@ -33,7 +33,7 @@ def homepage(request):
                 'allstatements': allstatements,
                 'Assets':Assets,
                 'Liabilities':Liabilities})
-                
+
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -118,24 +118,35 @@ def login_request(request):
                     template_name = "accounts/login.html",
                     context={"form":form})
 
+def view_account(request):
+    queryset = Account.objects.all() # list of objects
+    context = {
+        "object_list": queryset
+    }    
+    return render(request, 'accounts/account_list.html', context)
+
+
+def view_accountinfo(request, id):
+    obj = get_object_or_404(Account, id=id)
+    context = {
+        "object": obj
+    }
+    return render(request, "accounts/accountinfo.html", context)    
+
 def profile(request):
-    return render(request = request,
-                    template_name = "accounts/profile.html")
-                    #context={"form":form})
+    return render(request = request, template_name = "accounts/profile.html")  
 
 def help(request):
-    return render(request = request, template_name = "accounts/help.html") 
+    return render(request = request, template_name = "accounts/help.html")   
 
-def view_account(request):
-    args = {'user': request.user}
-    return render(request, 'accounts/accountinfo.html', args)
 
-def ledger(request):
-    model = Journal
-    query_set = Journal.objects.all()
+def ledger(request, id):
+    account_ledger = Journal.objects.filter(account__id=id)
     return render(request = request,
                   template_name = "accounts/ledger.html",
-                  context = {"journals": query_set})
+                  context = {"journals": account_ledger})
+
+
 
 def journals(request):
     #Create a formset out of the JournalForm
@@ -168,10 +179,10 @@ def journals(request):
     context = {
         'journal_form':journal_formset
     }
-    useraccounts = UserAccount.objects.all()
+    accounts = Account.objects.all()
     journals = Journal.objects.all()
-    allstatements = Statements.objects.all()
-    for useraccount in useraccounts:
+    allstatements = Statement.objects.all()
+    for account in accounts:
         Accdebit = 0
         Acccredit = 0
         totaldebit = 0
@@ -180,21 +191,21 @@ def journals(request):
         Expenses = 0
         for journal in journals:
             if journal.status == 2:
-                if useraccount.account_name == journal.account.account_name:
+                if account.account_name == journal.account.account_name:
                     Acccredit = Acccredit + journal.journal_credit
-                if useraccount.account_name == journal.account.account_name:
+                if account.account_name == journal.account.account_name:
                     Accdebit = Accdebit + journal.journal_debit
-        useraccount.credit = Acccredit 
-        useraccount.debit = Accdebit
-        useraccount.balance = Accdebit + Acccredit
-        useraccount.save()
-    for useraccount in useraccounts:
-        totaldebit = totaldebit + useraccount.debit
-        totalcredit = totalcredit + useraccount.credit
-    for statements in allstatements:
-        statements.Total_debit = totaldebit
-        statements.Total_Credit = totalcredit
-        statements.save()
+        account.credit = Acccredit 
+        account.debit = Accdebit
+        account.balance = Accdebit + Acccredit
+        account.save()
+    for account in accounts:
+        totaldebit = totaldebit + account.debit
+        totalcredit = totalcredit + account.credit
+    for statement in allstatements:
+        statement.Total_debit = totaldebit
+        statement.Total_Credit = totalcredit
+        statement.save()
     for journal in journals:
             if journal.Type == 1:
                 Expenses = Expenses + journal.journal_credit + journal.journal_debit
@@ -202,12 +213,12 @@ def journals(request):
                 Revenues = Revenues + journal.journal_credit + journal.journal_debit
             else:
                 pass
-    for statements in allstatements:
-        statements.Total_Expense = Expenses
-        statements.Total_Revenue = Revenues
-        statements.Net_Profit = Revenues - Expenses
-        statements.Ending_Balance = statements.Beginning_Balance + statements.Net_Profit - statements.Divedends
-        statements.save()
+    for statement in allstatements:
+        statement.Total_Expense = Expenses
+        statement.Total_Revenue = Revenues
+        statement.Net_Profit = Revenues - Expenses
+        statement.Ending_Balance = statement.Beginning_Balance + statement.Net_Profit - statement.Divedends
+        statement.save()
 
     return render(request, template_name, context)
 '''
@@ -238,24 +249,24 @@ def journals(request):
 def generate_statements (request):
     Statementsform = StatementsForm()
     Userform = UserAccountForm()
-    useraccounts = UserAccount.objects.all()
-    allstatements = Statements.objects.all()
+    accounts = Account.objects.all()
+    allstatements = Statement.objects.all()
 
-    args = {'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
+    args = {'Userform': Userform, 'accounts': accounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
     return render(request, 'accounts/generate_statements.html', args)
 
 def balance_sheet (request):
     Statementsform = StatementsForm()
     Userform = UserAccountForm()
-    useraccounts = UserAccount.objects.all()
-    allstatements = Statements.objects.all()
+    accounts = Account.objects.all()
+    allstatements = Statement.objects.all()
 
-    args = {'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
+    args = {'Userform': Userform, 'accounts': accounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
     return render(request, 'accounts/balance_sheet.html', args)
 
 def retained_earnings (request):
     Statementsform = StatementsForm()
-    allstatements = Statements.objects.all()
+    allstatements = Statement.objects.all()
 
     args = {'Statementsform': Statementsform, 'allstatements': allstatements }     
     return render(request, 'accounts/retained_earnings.html', args)
@@ -265,10 +276,10 @@ def income_statement (request):
     journals = Journal.objects.all()
     Statementsform = StatementsForm()
     Userform = UserAccountForm()
-    useraccounts = UserAccount.objects.all()
-    allstatements = Statements.objects.all()
+    accounts = Account.objects.all()
+    allstatements = Statement.objects.all()
 
-    args = {'Journalform': Journalform, 'journals': journals, 'Userform': Userform, 'useraccounts': useraccounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
+    args = {'Journalform': Journalform, 'journals': journals, 'Userform': Userform, 'accounts': accounts, 'Statementsform': Statementsform, 'allstatements': allstatements }     
     return render(request, 'accounts/income_statement.html', args)
     
 def manageJournals (request):
@@ -354,29 +365,29 @@ def adjusting_journals(request):
     context = {
         'journal_form':journal_formset
     }
-    useraccounts = UserAccount.objects.all()
+    accounts = Account.objects.all()
     journals = Journal.objects.all()
-    allstatements = Statements.objects.all()
-    for useraccount in useraccounts:
+    allstatements = Statement.objects.all()
+    for account in accounts:
         Accdebit = 0
         Acccredit = 0
         totaldebit = 0
         totalcredit = 0
         for journal in journals:
             if journal.status == 2:
-                if useraccount.account_name == journal.account.account_name:
+                if account.account_name == journal.account.account_name:
                     Acccredit = Acccredit + journal.journal_credit
-                if useraccount.account_name == journal.account.account_name:
+                if account.account_name == journal.account.account_name:
                     Accdebit = Accdebit + journal.journal_debit
-        useraccount.credit = Acccredit 
-        useraccount.debit = Accdebit
-        useraccount.balance = Accdebit + Acccredit
-        useraccount.save()
-    for useraccount in useraccounts:
-        totaldebit = totaldebit + useraccount.debit
-        totalcredit = totalcredit + useraccount.credit
-    for statements in allstatements:
-        statements.Total_debit = totaldebit
-        statements.Total_Credit = totalcredit
-        statements.save()
+        account.credit = Acccredit 
+        account.debit = Accdebit
+        account.balance = Accdebit + Acccredit
+        account.save()
+    for account in accounts:
+        totaldebit = totaldebit + account.debit
+        totalcredit = totalcredit + account.credit
+    for statement in allstatements:
+        statement.Total_debit = totaldebit
+        statement.Total_Credit = totalcredit
+        statement.save()
     return render(request, template_name, context)

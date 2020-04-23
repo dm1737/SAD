@@ -5,8 +5,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import Profile
 from simple_history.admin import SimpleHistoryAdmin
-from .models import UserAccount
-from .models import Journal, Statements
+from .models import Account
+from .models import Journal, Statement
 
 
 class AccountAdmin (SimpleHistoryAdmin):
@@ -52,6 +52,6 @@ class JournalAdmin(SimpleHistoryAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(UserAccount, AccountAdmin)
+admin.site.register(Account, AccountAdmin)
 admin.site.register(Journal, JournalAdmin)
-admin.site.register(Statements)
+admin.site.register(Statement)

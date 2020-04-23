@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Journal
 from decimal import *
-from .models import Journal, UserAccount, Journal, Statements
+from .models import Journal, Account, Journal, Statement
 from django.utils.translation import gettext_lazy as _
 
 class NewUserForm(UserCreationForm):
@@ -53,58 +53,58 @@ class JournalForm(forms.ModelForm):
         widgets = {
             
             'account': forms.Select(
-				attrs={
-					'class': 'form-control'
-					}                
-				),
+                attrs={
+                    'class': 'form-control'
+                    }                
+                ),
             'Journal_name': forms.TextInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
-			
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
+            
             'Journal_number': forms.TextInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
             'Journal_description': forms.Textarea(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
             'initial_journal_balance': forms.TextInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
             'journal_debit': forms.TextInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
             'journal_credit': forms.TextInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
             'journal_balance': forms.TextInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
             'source_document': forms.ClearableFileInput(
-				attrs={
-					'class': 'form-control'
-					}
-				),
+                attrs={
+                    'class': 'form-control'
+                    }
+                ),
                 'Type': forms.Select(
-				attrs={
-					'class': 'form-control'
-					}                
-				),
+                attrs={
+                    'class': 'form-control'
+                    }                
+                ),
              
-			}
+            }
 
 class JournalFormset(BaseFormSet):
     def clean(self):
@@ -121,7 +121,7 @@ class JournalFormset(BaseFormSet):
 
 class UserAccountForm(forms.ModelForm):
     class Meta:
-        model = UserAccount
+        model = Account
         fields = [
             'account_name',
             'debit',
@@ -129,7 +129,7 @@ class UserAccountForm(forms.ModelForm):
         ]
 class StatementsForm(forms.ModelForm):
     class Meta:
-        model = Statements
+        model = Statement
         fields = [
             'Total_debit',
             'Total_Credit',
