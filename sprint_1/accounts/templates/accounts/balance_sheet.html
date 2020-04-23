@@ -12,11 +12,11 @@
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for useraccount in useraccounts %}
-        {% if useraccount.account_number < 200  %}
+        {% for account in accounts %}
+        {% if account.account_number < 200  %}
         <tr> 
-            <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.balance }}</td>
+            <td>{{ account.account_name }}</td>
+            <td>{{ account.balance }}</td>
         </tr>
         {% endif %}
         {% endfor %}
@@ -45,9 +45,9 @@ function myFunction() {
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr> 
-            <td>{{ statements.Total_debit }}</td>
+            <td>{{ statement.Total_debit }}</td>
         </tr>
         {% endfor %}
 
@@ -76,12 +76,12 @@ function myFunction() {
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for useraccount in useraccounts %}
-        {% if useraccount.account_number < 300  %}
-        {% if useraccount.account_number > 200  %}
+        {% for account in accounts %}
+        {% if account.account_number < 300  %}
+        {% if account.account_number > 200  %}
         <tr> 
-            <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.balance }}</td>
+            <td>{{ account.account_name }}</td>
+            <td>{{ account.balance }}</td>
         </tr>
         {% endif %}
         {% endif %}
@@ -112,11 +112,11 @@ function myFunction() {
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for useraccount in useraccounts %}
-        {% if useraccount.account_number > 300  %}
+        {% for account in useraccounts %}
+        {% if account.account_number > 300  %}
         <tr> 
-            <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.balance }}</td>
+            <td>{{ account.account_name }}</td>
+            <td>{{ account.balance }}</td>
         </tr>
         {% endif %}
         {% endfor %}
@@ -146,9 +146,9 @@ function myFunction() {
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr> 
-            <td>{{ statements.Total_Credit }}</td>
+            <td>{{ statement.Total_Credit }}</td>
         </tr>
         {% endfor %}
 
@@ -177,8 +177,8 @@ function myFunction() {
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for statements in allstatements %}
-        {% if statements.Total_Credit == statements.Total_debit  %}
+        {% for statement in allstatements %}
+        {% if statement.Total_Credit == statement.Total_debit  %}
 
         <tr> 
             <td>Balance Check Suceeded; Difference = 0</td>

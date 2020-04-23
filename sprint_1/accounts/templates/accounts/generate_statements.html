@@ -14,19 +14,19 @@
         </tr>
     </thead>
     <tbody id = "myTable">
-        {% for useraccount in useraccounts %}
+        {% for account in accounts %}
         <tr> 
-            <td>{{ useraccount.account_name }}</td>
-            <td>{{ useraccount.debit }}</td>
-            <td>{{ useraccount.credit }}</td>
+            <td>{{ account.account_name }}</td>
+            <td>{{ account.debit }}</td>
+            <td>{{ account.credit }}</td>
         </tr>
         {% endfor %}
 
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr>
             <td>Total</td>
-            <td>{{ statements.Total_debit }}</td>
-            <td>{{ statements.Total_Credit }}</td>
+            <td>{{ statement.Total_debit }}</td>
+            <td>{{ statement.Total_Credit }}</td>
         </tr>
         {% endfor %}
 
