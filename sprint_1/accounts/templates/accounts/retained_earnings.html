@@ -13,36 +13,36 @@
             <th scope="col">R/E Beginning Balance</th>
         </tr>
 
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr>
-            <td>{{statements.Beginning_Balance}}</th>
+            <td>{{statement.Beginning_Balance}}</th>
         </tr>
         {% endfor %}
         <tr>
             <th scope="col">Net-Income/Loss</th>
         </tr>
 
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr>
-            <td>{{statements.Net_Profit}}</th>
+            <td>{{statement.Net_Profit}}</th>
         </tr>
         {% endfor %}
         <tr>
             <th scope="col">Dividends</th>
         </tr>
 
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr>
-            <td>{{statements.Divedends}}</th>
+            <td>{{statement.Divedends}}</th>
         </tr>
         {% endfor %}
         <tr>
             <th scope="col">R/E End Balance</th>
         </tr>
 
-        {% for statements in allstatements %}
+        {% for statement in allstatements %}
         <tr>
-            <td>{{statements.Ending_Balance}}</th>
+            <td>{{statement.Ending_Balance}}</th>
         </tr>
         {% endfor %}
     </thead>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+
+{% for instance in object_list %}
+     <p><a href="/account/{{instance.id}}">{{ instance.account_name }}</a></p>
+{% endfor %}
+
+
+{% endblock %}
